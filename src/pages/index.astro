@@ -201,6 +201,36 @@
 
 </section>
 
+<style>
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .portrait-wrap {
+    position: relative;
+  }
+
+  .portrait {
+    width: 100%;
+    border-radius: 28px;
+    object-fit: cover;
+    filter: grayscale(8%) contrast(1.05);
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .portrait-wrap {
+      order: -1;
+    }
+  }
+</style>
+
       <!-- WORK -->
       <section class="fade">
         <div class="label">SELECTED WORK</div>
