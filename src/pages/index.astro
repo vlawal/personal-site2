@@ -6,9 +6,10 @@
     <title>Ovie Lawal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Sans + Serif contrast -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
       :root {
@@ -25,24 +26,33 @@
 
       body {
         margin: 0;
-        background: var(--bg);
         color: var(--text);
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        font-family: "Inter", system-ui, sans-serif;
+        background: var(--bg);
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+        overflow-x: hidden;
+      }
+
+      /* subtle noise texture (signature layer) */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+        opacity: 0.35;
       }
 
       main {
         max-width: 880px;
         margin: 0 auto;
-        padding: 140px 28px;
+        padding: 160px 28px;
       }
 
-      /* NAV */
       nav {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         margin-bottom: 120px;
         font-size: 13px;
         color: var(--soft);
@@ -58,9 +68,9 @@
         color: var(--text);
       }
 
-      /* HERO */
+      /* HERO (signature typography mix) */
       .hero {
-        margin-bottom: 140px;
+        margin-bottom: 160px;
       }
 
       h1 {
@@ -71,10 +81,20 @@
         font-weight: 500;
       }
 
+      /* serif accent line = identity layer */
+      .accent {
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+        font-size: 22px;
+        margin-top: 18px;
+        color: #CFCFCF;
+        letter-spacing: 0.2px;
+      }
+
       .role {
-        font-size: 19px;
+        font-size: 18px;
         color: var(--muted);
-        margin-top: 20px;
+        margin-top: 22px;
       }
 
       .desc {
@@ -86,27 +106,26 @@
       }
 
       section {
-        margin-top: 140px;
+        margin-top: 160px;
       }
 
       .label {
         font-size: 11px;
         letter-spacing: 2.4px;
         color: var(--soft);
-        margin-bottom: 26px;
+        margin-bottom: 28px;
       }
 
-      /* WORK */
       .work-item {
         display: flex;
         justify-content: space-between;
-        padding: 18px 0;
+        padding: 20px 0;
         border-bottom: 1px solid var(--line);
-        transition: all 0.2s ease;
+        transition: all 0.25s ease;
       }
 
       .work-item:hover {
-        transform: translateX(5px);
+        transform: translateX(6px);
         color: #fff;
       }
 
@@ -115,29 +134,25 @@
         color: var(--soft);
       }
 
-      /* subtle entrance */
+      /* softer motion (more premium feel) */
       .fade {
-        animation: fade 0.7s ease-out both;
+        animation: fade 0.9s ease-out both;
       }
 
       @keyframes fade {
-        from { opacity: 0; transform: translateY(12px); }
+        from { opacity: 0; transform: translateY(16px); }
         to { opacity: 1; transform: translateY(0); }
       }
 
-      /* mobile */
       @media (max-width: 640px) {
-        h1 {
-          font-size: 54px;
-        }
+        h1 { font-size: 52px; }
 
         main {
-          padding: 100px 20px;
+          padding: 110px 20px;
         }
 
         nav {
           flex-direction: column;
-          align-items: flex-start;
           gap: 10px;
         }
       }
@@ -147,7 +162,6 @@
   <body>
     <main>
 
-      <!-- NAV -->
       <nav>
         <div>Ovie Lawal</div>
         <div>
@@ -160,6 +174,10 @@
       <!-- HERO -->
       <section class="hero fade">
         <h1>Product leader<br/>building AI systems</h1>
+
+        <div class="accent">
+          Designing intelligence for financial infrastructure
+        </div>
 
         <div class="role">
           AI-native financial systems & enterprise automation.
