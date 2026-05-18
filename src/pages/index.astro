@@ -10,561 +10,971 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
+    /* ── TOKENS ─────────────────────────────────────────────── */
     :root {
-      --bg: #0B0B0C;
-      --text: #EDEDED;
-      --muted: #A3A3A3;
-      --soft: #6E6E6E;
-      --line: #1C1C1C;
-      --accent: #D4AF72;
+      --bg:       #0A0A0A;
+      --surface:  #141414;
+      --line:     rgba(255,255,255,0.07);
+      --text:     #F0EDE8;
+      --muted:    #7A7670;
+      --dim:      #3A3835;
+      --gold:     #C9A84C;
+      --gold-dim: rgba(201,168,76,0.12);
+      --ff-serif: "Cormorant Garamond", Georgia, serif;
+      --ff-sans:  "DM Sans", system-ui, sans-serif;
     }
 
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      color: var(--text);
-      font-family: "Inter", system-ui, sans-serif;
       background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff-sans);
+      font-size: 16px;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
       overflow-x: hidden;
+      cursor: none;
     }
 
-    /* subtle noise texture */
-    body::before {
+    /* ── CUSTOM CURSOR ──────────────────────────────────────── */
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.2s ease;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.4);
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                  height 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                  border-color 0.3s ease;
+    }
+
+    #cursor-ring.expanded {
+      width: 56px;
+      height: 56px;
+      border-color: rgba(201,168,76,0.7);
+    }
+
+    /* ── NOISE TEXTURE ──────────────────────────────────────── */
+    body::after {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
-      opacity: 0.35;
-      z-index: 0;
+      z-index: 100;
+      opacity: 1;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     }
 
-    main {
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 160px 28px;
+    /* ── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+    }
+
+    nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .nav-monogram {
+      font-family: var(--ff-serif);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: 0.08em;
+      text-decoration: none;
       position: relative;
       z-index: 1;
     }
 
-    /* NAV */
-    nav {
+    .nav-monogram span { color: var(--gold); }
+
+    .nav-links {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 120px;
-      font-size: 13px;
-      color: var(--soft);
+      gap: 36px;
+      position: relative;
+      z-index: 1;
     }
 
-    nav .nav-name {
-      color: var(--soft);
-      letter-spacing: 0.02em;
-    }
-
-    nav .nav-links a {
-      color: var(--soft);
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
       text-decoration: none;
-      margin-left: 18px;
-      transition: color 0.2s ease;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.25s ease;
     }
 
-    nav .nav-links a:hover { color: var(--text); }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
 
-    /* HERO */
-    .hero { margin-bottom: 160px; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
 
-    .hero-grid {
+    /* ── HERO ───────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 60px;
-      align-items: center;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-letter {
+      position: absolute;
+      right: -0.05em;
+      bottom: -0.25em;
+      font-family: var(--ff-serif);
+      font-size: clamp(280px, 40vw, 520px);
+      font-weight: 300;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(201,168,76,0.06);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 140px 48px 80px 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease-out forwards;
     }
 
     h1 {
-      font-size: 86px;
-      letter-spacing: -3px;
-      line-height: 0.9;
-      margin: 0;
-      font-weight: 500;
+      font-family: var(--ff-serif);
+      font-size: clamp(4rem, 7vw, 8.5rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s ease-out forwards;
     }
 
-    .accent {
-      font-family: "Playfair Display", serif;
-      font-weight: 400;
-      font-size: 22px;
-      margin-top: 18px;
-      color: #CFCFCF;
-      letter-spacing: 0.2px;
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
     }
 
-    .role {
-      font-size: 15px;
+    .hero-tagline {
+      font-family: var(--ff-serif);
+      font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(240,237,232,0.5);
+      max-width: 44ch;
+      line-height: 1.55;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s ease-out forwards;
+    }
+
+    .hero-creds {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s ease-out forwards;
+    }
+
+    .hero-cred-item {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       color: var(--muted);
-      margin-top: 22px;
+    }
+
+    .hero-cred-sep {
+      width: 1px;
+      height: 14px;
+      background: var(--dim);
+      flex-shrink: 0;
+    }
+
+    .hero-right {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      padding: 140px 48px 80px 0;
     }
 
-    .role-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: inline-block;
-    }
-
-    .desc {
-      font-size: 17px;
-      line-height: 1.8;
-      color: #CFCFCF;
-      margin-top: 28px;
-    }
-
-    .portrait-wrap {
+    .portrait-frame {
       position: relative;
+      width: 100%;
+      max-width: 360px;
+      opacity: 0;
+      animation: fadeIn 1.2s 0.5s ease-out forwards;
     }
 
-    /* subtle glow behind portrait */
-    .portrait-wrap::before {
+    .portrait-frame::before {
       content: "";
       position: absolute;
-      inset: -18px;
-      border-radius: 44px;
-      background: radial-gradient(ellipse at 50% 40%, rgba(212,175,114,0.18) 0%, rgba(212,175,114,0.04) 55%, transparent 75%);
-      z-index: 0;
+      inset: -32px;
+      background: radial-gradient(ellipse at 50% 35%, rgba(201,168,76,0.14) 0%, rgba(201,168,76,0.03) 55%, transparent 72%);
       pointer-events: none;
+      z-index: 0;
+    }
+
+    .portrait-frame::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 40px;
+      height: 40px;
+      border-top: 1px solid rgba(201,168,76,0.4);
+      border-right: 1px solid rgba(201,168,76,0.4);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .portrait-corner-bl {
+      position: absolute;
+      bottom: -8px;
+      left: -8px;
+      width: 40px;
+      height: 40px;
+      border-bottom: 1px solid rgba(201,168,76,0.4);
+      border-left: 1px solid rgba(201,168,76,0.4);
+      pointer-events: none;
+      z-index: 2;
     }
 
     .portrait {
       width: 100%;
-      border-radius: 28px;
-      object-fit: cover;
-      filter: grayscale(8%) contrast(1.05);
       display: block;
+      border-radius: 4px;
+      object-fit: cover;
+      filter: grayscale(10%) contrast(1.06) brightness(0.95);
       position: relative;
       z-index: 1;
     }
 
-    /* placeholder when no portrait */
     .portrait-placeholder {
       width: 100%;
       aspect-ratio: 3 / 4;
-      border-radius: 28px;
-      background: #141414;
-      border: 1px dashed #2a2a2a;
+      background: var(--surface);
+      border-radius: 4px;
+      border: 1px solid var(--dim);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--soft);
-      font-size: 13px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       position: relative;
       z-index: 1;
     }
 
-    /* SECTIONS */
-    section { margin-top: 160px; }
+    /* ── DIVIDER ────────────────────────────────────────────── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 0;
+    }
 
-    .label {
-      font-size: 11px;
-      letter-spacing: 2.4px;
-      color: var(--soft);
-      margin-bottom: 28px;
+    /* ── SECTIONS ───────────────────────────────────────────── */
+    section {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
-    }
-
-    /* WORK */
-    .work-item {
+      color: var(--gold);
+      margin-bottom: 56px;
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 22px 0;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-label::after {
+      content: "";
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.4;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.85s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    h2 {
+      font-family: var(--ff-serif);
+      font-size: clamp(2rem, 3.5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    h2 em {
+      font-style: italic;
+      color: rgba(240,237,232,0.45);
+    }
+
+    .about-bio {
+      font-size: 16px;
+      line-height: 1.9;
+      color: rgba(240,237,232,0.6);
+      max-width: 54ch;
+    }
+
+    .about-bio p { margin-bottom: 20px; }
+    .about-bio p:last-child { margin-bottom: 0; }
+
+    .stat-item {
+      padding: 28px 0;
       border-bottom: 1px solid var(--line);
-      gap: 24px;
-      cursor: default;
-      transition: padding-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .work-item:first-child { border-top: 1px solid var(--line); }
+    .stat-item:first-child { border-top: 1px solid var(--line); }
 
-    .work-item:hover { padding-left: 10px; }
-
-    .work-item:hover .work-title {
-      color: #fff;
+    .stat-number {
+      font-family: var(--ff-serif);
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
     }
 
-    .work-item:hover .work-sub {
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       color: var(--muted);
     }
 
-    .work-item:hover .work-meta {
-      color: var(--accent);
+    /* ── EXPERTISE ──────────────────────────────────────────── */
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .exp-card {
+      background: var(--bg);
+      padding: 36px 28px;
+      transition: background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exp-card::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .exp-card:hover { background: #111; }
+    .exp-card:hover::after { transform: scaleX(1); }
+
+    .exp-num {
+      font-family: var(--ff-serif);
+      font-size: 13px;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .exp-title {
+      font-family: var(--ff-serif);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .exp-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── WORK ───────────────────────────────────────────────── */
+    .work-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 32px;
+      align-items: baseline;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding-left 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      cursor: default;
+    }
+
+    .work-item:first-child { border-top: 1px solid var(--line); }
+    .work-item:hover { padding-left: 12px; }
+    .work-item:hover .work-title { color: var(--text); }
+    .work-item:hover .work-year  { color: var(--gold); }
+
+    .work-year {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      transition: color 0.25s ease;
+      padding-top: 4px;
     }
 
     .work-title {
-      font-size: 16px;
+      font-family: var(--ff-serif);
+      font-size: 22px;
       font-weight: 400;
+      color: rgba(240,237,232,0.7);
       transition: color 0.25s ease;
+      line-height: 1.2;
     }
 
     .work-sub {
       font-size: 13px;
-      color: var(--soft);
-      margin-top: 4px;
-      transition: color 0.25s ease;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.55;
     }
 
-    .work-meta {
-      font-size: 13px;
-      color: var(--soft);
+    .work-tag {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dim);
       white-space: nowrap;
-      flex-shrink: 0;
-      transition: color 0.25s ease;
     }
 
-    /* READING RHYTHM — constrain prose to ~65ch for comfortable scanning */
-    .desc        { max-width: 54ch; }
-    .about-text  { max-width: 62ch; }
-    .contact-intro { max-width: 42ch; }
-    .ovl-desc    { max-width: 56ch; }
-
-    /* ABOUT */
-    .about-text {
-      font-size: 17px;
-      line-height: 1.8;
-      color: #CFCFCF;
-    }
-
-    .about-text p { margin-bottom: 20px; }
-    .about-text p:last-child { margin-bottom: 0; }
-
-    /* OVL SHOW */
+    /* ── OVL SHOW ───────────────────────────────────────────── */
     .ovl-block {
-      border: 1px solid #1e1e1e;
-      border-radius: 20px;
-      padding: 36px 40px;
-      display: flex;
-      align-items: flex-start;
-      gap: 32px;
-      background: #0f0f0f;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      border: 1px solid var(--line);
+      padding: 56px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .ovl-symbol {
-      font-family: "Playfair Display", serif;
-      font-size: 48px;
+    .ovl-block::before {
+      content: "◎";
+      position: absolute;
+      right: -0.08em;
+      bottom: -0.38em;
+      font-family: var(--ff-serif);
+      font-size: clamp(140px, 20vw, 220px);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(201,168,76,0.05);
       line-height: 1;
-      color: var(--accent);
-      flex-shrink: 0;
-      margin-top: 4px;
+      pointer-events: none;
     }
 
     .ovl-title {
-      font-size: 20px;
-      font-weight: 500;
+      font-family: var(--ff-serif);
+      font-size: clamp(2rem, 3vw, 3.2rem);
+      font-weight: 300;
       color: var(--text);
-      margin-bottom: 10px;
+      line-height: 1.1;
+      margin-bottom: 20px;
     }
 
     .ovl-desc {
       font-size: 15px;
-      line-height: 1.7;
-      color: var(--muted);
-      margin-bottom: 20px;
+      line-height: 1.8;
+      color: rgba(240,237,232,0.5);
+      max-width: 48ch;
+      margin-bottom: 32px;
     }
 
     .ovl-cta {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--accent);
-      border: 1px solid rgba(212,175,114,0.25);
-      border-radius: 40px;
-      padding: 8px 20px;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
       text-decoration: none;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      padding-bottom: 4px;
+      transition: border-color 0.25s ease, gap 0.25s ease;
     }
 
-    .ovl-cta:hover {
-      border-color: rgba(212,175,114,0.5);
-      background: rgba(212,175,114,0.05);
+    .ovl-cta:hover { border-color: var(--gold); gap: 18px; }
+
+    .ovl-symbol-large {
+      font-family: var(--ff-serif);
+      font-size: clamp(100px, 14vw, 160px);
+      font-weight: 300;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(201,168,76,0.18);
+      line-height: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
-    /* CONTACT */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: start;
+    /* ── CONTACT ────────────────────────────────────────────── */
+    .contact-inner {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
     }
 
-    .contact-intro {
-      font-size: 17px;
-      line-height: 1.8;
-      color: #CFCFCF;
+    .contact-heading {
+      font-family: var(--ff-serif);
+      font-size: clamp(3rem, 6vw, 6.5rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--text);
       margin-bottom: 28px;
     }
 
-    .contact-link {
+    .contact-heading em {
+      font-style: italic;
+      color: rgba(240,237,232,0.3);
+    }
+
+    .contact-sub {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 48px;
+      max-width: 42ch;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .contact-links {
       display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
-      transition: color 0.2s;
-      margin-bottom: 12px;
+      position: relative;
+      padding-bottom: 3px;
+      transition: color 0.25s ease;
+    }
+
+    .contact-link::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
     }
 
     .contact-link:hover { color: var(--text); }
+    .contact-link:hover::after { width: 100%; }
+    .contact-link svg { opacity: 0.5; transition: opacity 0.25s; }
+    .contact-link:hover svg { opacity: 1; }
 
-    .contact-link svg {
-      width: 16px;
-      height: 16px;
-      opacity: 0.6;
-    }
-
-    .form-group { margin-bottom: 16px; }
-
-    .form-label {
-      display: block;
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      color: var(--soft);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      background: #111111;
-      border: 1px solid #1e1e1e;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 14px;
-      color: var(--text);
-      font-family: "Inter", system-ui, sans-serif;
-      transition: border-color 0.2s ease;
-      outline: none;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus { border-color: #333; }
-
-    .form-textarea { resize: none; height: 100px; }
-
-    .form-btn {
-      width: 100%;
-      background: var(--text);
-      color: var(--bg);
-      border: none;
-      border-radius: 10px;
-      padding: 14px;
-      font-size: 14px;
-      font-weight: 500;
-      font-family: "Inter", system-ui, sans-serif;
-      cursor: pointer;
-      transition: opacity 0.2s ease;
-      margin-top: 4px;
-    }
-
-    .form-btn:hover { opacity: 0.85; }
-
-    /* FOOTER */
+    /* ── FOOTER ─────────────────────────────────────────────── */
     footer {
-      margin-top: 160px;
-      padding-top: 32px;
       border-top: 1px solid var(--line);
+      padding: 32px 48px;
       display: flex;
       justify-content: space-between;
-      font-size: 12px;
-      color: var(--soft);
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--dim);
     }
 
-    /* ANIMATIONS */
-    .fade {
-      animation: fade 0.9s ease-out both;
+    footer a {
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.2s ease;
     }
 
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(16px); }
+    footer a:hover { color: var(--muted); }
+
+    /* ── KEYFRAMES ──────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* MOBILE */
-    @media (max-width: 900px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-      .portrait-wrap, .portrait-placeholder {
-        order: -1;
-        max-width: 280px;
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
-    @media (max-width: 640px) {
-      h1 { font-size: 52px; }
-      main { padding: 80px 20px; }
-      nav { flex-direction: column; gap: 16px; }
-      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-      .ovl-block { flex-direction: column; gap: 16px; padding: 28px 24px; }
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      nav { padding: 24px 28px; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 120px 28px 48px; }
+      .hero-right { padding: 0 28px 60px; justify-content: flex-start; }
+      .portrait-frame { max-width: 240px; }
+      .hero-bg-letter { display: none; }
+      section { padding: 80px 28px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .expertise-grid { grid-template-columns: repeat(2, 1fr); }
+      .ovl-block { grid-template-columns: 1fr; gap: 36px; padding: 40px 28px; }
+      footer { padding: 28px; flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { gap: 20px; }
+      h1 { letter-spacing: -0.01em; }
+      .expertise-grid { grid-template-columns: 1fr; }
+      .work-item { grid-template-columns: 56px 1fr; }
+      .work-tag { display: none; }
+      .contact-links { flex-direction: column; align-items: center; gap: 24px; }
     }
   </style>
 </head>
 
 <body>
-  <main>
+  <div id="cursor" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
 
-    <!-- NAV -->
-    <nav>
-      <div class="nav-name">Dr. Victor Lawal</div>
-      <div class="nav-links">
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="#ovl">The OVL Show</a>
-        <a href="#contact">Contact</a>
+  <!-- NAV -->
+  <nav aria-label="Primary navigation">
+    <a href="#" class="nav-monogram" aria-label="Dr. Victor Lawal">V<span>L</span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-name">
+    <div class="hero-bg-letter" aria-hidden="true">L</div>
+
+    <div class="hero-left">
+      <p class="hero-eyebrow">Product Director · Paris</p>
+      <h1 id="hero-name">Dr.<br>Victor<br><em>Lawal</em></h1>
+      <p class="hero-tagline">Designing intelligence for financial infrastructure — where AI meets enterprise scale.</p>
+      <div class="hero-creds">
+        <span class="hero-cred-item">Kyriba</span>
+        <span class="hero-cred-sep" aria-hidden="true"></span>
+        <span class="hero-cred-item">DBA · AI Adoption</span>
+        <span class="hero-cred-sep" aria-hidden="true"></span>
+        <span class="hero-cred-item">6+ Years Fintech</span>
       </div>
-    </nav>
+    </div>
 
-    <!-- HERO -->
-    <section class="hero fade">
-      <div class="hero-grid">
+    <div class="hero-right">
+      <div class="portrait-frame">
+        <span class="portrait-corner-bl" aria-hidden="true"></span>
+        <!-- Swap for your photo: <img src="/portrait.jpg" alt="Dr. Victor Lawal" class="portrait"> -->
+        <div class="portrait-placeholder" role="img" aria-label="Portrait placeholder">your photo here</div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-heading">
+    <div class="reveal">
+      <p class="section-label">About</p>
+      <div class="about-grid">
         <div>
-          <h1>Product leader<br/>building AI systems</h1>
-          <div class="accent">Designing intelligence for financial infrastructure</div>
-          <div class="role">
-            <span class="role-dot"></span>
-            Product Director · Kyriba · Paris
-          </div>
-          <div class="desc">
-            I design and scale complex fintech and AI products — from trade finance
-            automation to working capital intelligence — built for enterprise teams
-            that can't afford to get it wrong.
+          <h2 id="about-heading">Built on<br><em>conviction,</em><br>not convention.</h2>
+          <div class="about-bio">
+            <p>I'm a Product Director based in Paris, working at the crossroads of enterprise fintech, AI, and working capital innovation. For over six years I've been building and scaling trade finance and treasury products at Kyriba — one of the world's leading cloud treasury platforms.</p>
+            <p>I'm also a researcher. My doctoral work examines how product managers adopt AI tools — what drives that adoption, what blocks it, and what it means for the future of software. The most important questions in technology are rarely purely technical.</p>
           </div>
         </div>
-        <div class="portrait-wrap">
-          <!-- Replace with: <img src="/portrait.jpg" alt="Victor Lawal" class="portrait" /> -->
-          <div class="portrait-placeholder">your photo here</div>
+        <div>
+          <div class="stat-item">
+            <div class="stat-number">6+</div>
+            <div class="stat-label">Years in enterprise fintech</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">DBA</div>
+            <div class="stat-label">Doctoral researcher · AI adoption</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Major products shipped at Kyriba</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">01</div>
+            <div class="stat-label">First AI forecasting platform at Kyriba</div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- WORK -->
-    <section id="work" class="fade">
-      <div class="label">Selected work</div>
+  <hr>
+
+  <!-- EXPERTISE -->
+  <section id="expertise" aria-labelledby="expertise-heading">
+    <div class="reveal">
+      <p class="section-label">Focus areas</p>
+      <h2 id="expertise-heading" style="margin-bottom: 48px;">What I<br><em>bring</em></h2>
+      <div class="expertise-grid">
+        <div class="exp-card">
+          <span class="exp-num" aria-hidden="true">01</span>
+          <div class="exp-title">Trade Finance &amp; Treasury</div>
+          <p class="exp-body">Working capital, reverse factoring, cash forecasting and liquidity management for global enterprises.</p>
+        </div>
+        <div class="exp-card">
+          <span class="exp-num" aria-hidden="true">02</span>
+          <div class="exp-title">AI Product Strategy</div>
+          <p class="exp-body">Designing and shipping AI-powered features — from ideation through enterprise adoption — in complex B2B environments.</p>
+        </div>
+        <div class="exp-card">
+          <span class="exp-num" aria-hidden="true">03</span>
+          <div class="exp-title">Enterprise SaaS</div>
+          <p class="exp-body">Cross-functional product leadership across engineering, sales, and client success at scale.</p>
+        </div>
+        <div class="exp-card">
+          <span class="exp-num" aria-hidden="true">04</span>
+          <div class="exp-title">Research &amp; Insights</div>
+          <p class="exp-body">Doctoral-level research into AI adoption behaviour and the human side of technology transformation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- WORK -->
+  <section id="work" aria-labelledby="work-heading">
+    <div class="reveal">
+      <p class="section-label">Selected work</p>
+      <h2 id="work-heading" style="margin-bottom: 48px;">Built<br><em>at scale</em></h2>
       <div>
-        <div class="work-item">
+        <article class="work-item">
+          <div class="work-year">2024</div>
           <div>
             <div class="work-title">AI Cash Forecasting Platform</div>
-            <div class="work-sub">Kyriba's first AI-powered forecasting product — designed and shipped from zero</div>
+            <p class="work-sub">Kyriba's first AI-powered forecasting product — designed and shipped from zero to enterprise deployment.</p>
           </div>
-          <span class="work-meta">Kyriba · 2024</span>
-        </div>
-        <div class="work-item">
+          <span class="work-tag">Kyriba</span>
+        </article>
+        <article class="work-item">
+          <div class="work-year">2023</div>
           <div>
             <div class="work-title">Reverse Factoring Integration</div>
-            <div class="work-sub">HSBC supply chain finance integration with end-to-end ledger reporting</div>
+            <p class="work-sub">HSBC supply chain finance integration with end-to-end ledger reporting and interest rate management.</p>
           </div>
-          <span class="work-meta">Kyriba · Enterprise</span>
-        </div>
-        <div class="work-item">
+          <span class="work-tag">Kyriba · HSBC</span>
+        </article>
+        <article class="work-item">
+          <div class="work-year">Ongoing</div>
           <div>
             <div class="work-title">Working Capital Intelligence System</div>
-            <div class="work-sub">Trade finance optimisation engine for global treasury operations</div>
+            <p class="work-sub">Trade finance optimisation engine for global treasury operations — automating decisions at enterprise scale.</p>
           </div>
-          <span class="work-meta">Fintech · Enterprise</span>
-        </div>
+          <span class="work-tag">Enterprise</span>
+        </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="fade">
-      <div class="label">About</div>
-      <div class="about-text">
-        <p>
-          I'm a Product Director based in Paris, working at the crossroads of enterprise
-          fintech, AI, and working capital innovation. For over six years, I've been
-          building and scaling trade finance and treasury products at Kyriba, one of the
-          world's leading cloud treasury platforms.
-        </p>
-        <p>
-          Beyond product, I'm a researcher. My doctoral work explores how product managers
-          adopt AI tools — what drives or blocks that adoption, and what it means for the
-          future of software development. I believe the most important questions in tech
-          are rarely just technical.
-        </p>
-      </div>
-    </section>
+  <hr>
 
-    <!-- THE OVL SHOW -->
-    <section id="ovl" class="fade">
-      <div class="label">The OVL Show</div>
+  <!-- OVL SHOW -->
+  <section id="ovl" aria-labelledby="ovl-heading">
+    <div class="reveal">
+      <p class="section-label">The OVL Show</p>
       <div class="ovl-block">
-        <div class="ovl-symbol">◎</div>
         <div>
-          <div class="ovl-title">The OVL Show</div>
-          <p class="ovl-desc">
-            A podcast about the ideas, decisions, and people behind the things we build.
-            Conversations on leadership, technology, and what it really takes to make
-            something that lasts.
-          </p>
-          <a href="#" class="ovl-cta">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            Follow the show — coming soon
+          <h2 id="ovl-heading" class="ovl-title">Ideas worth<br>building on.</h2>
+          <p class="ovl-desc">A podcast about the decisions, people, and ideas behind the things we build. Conversations on leadership, technology, and what it really takes to make something that lasts.</p>
+          <a href="#" class="ovl-cta" aria-label="Follow The OVL Show">
+            Follow the show
+            <svg width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true"><path d="M0 4h14M11 1l3 3-3 3" stroke="currentColor" stroke-width="1"/></svg>
           </a>
         </div>
+        <div class="ovl-symbol-large" aria-hidden="true">◎</div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="fade">
-      <div class="label">Contact</div>
-      <div class="contact-grid">
-        <div>
-          <p class="contact-intro">
-            Whether you want to talk product, fintech, AI, or just have an interesting
-            conversation — I'm always open to it.
-          </p>
-          <a href="https://linkedin.com/in/vlawal" target="_blank" rel="noopener" class="contact-link">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+  <hr>
+
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-heading">
+    <div class="reveal">
+      <p class="section-label">Contact</p>
+      <div class="contact-inner">
+        <h2 id="contact-heading" class="contact-heading">Let's<br><em>talk.</em></h2>
+        <p class="contact-sub">Whether you want to discuss product strategy, fintech, AI, or just have an interesting conversation — I'm always open.</p>
+        <div class="contact-links">
+          <a href="https://linkedin.com/in/vlawal" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="LinkedIn profile">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
+          <a href="mailto:drvictorlawal@gmail.com" class="contact-link" aria-label="Email Dr. Victor Lawal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+            drvictorlawal@gmail.com
+          </a>
         </div>
-        <form
-          action="https://formspree.io/f/YOUR_FORM_ID"
-          method="POST"
-        >
-          <div class="form-group">
-            <label class="form-label" for="name">Name</label>
-            <input class="form-input" id="name" name="name" type="text" placeholder="Your name" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-input" id="email" name="email" type="email" placeholder="your@email.com" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="message">Message</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
-          </div>
-          <button class="form-btn" type="submit">Send message →</button>
-        </form>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer>
-      <span>© 2025 Dr. Victor Lawal</span>
-      <span>victorlawal.com</span>
-    </footer>
+  <hr>
 
-  </main>
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Dr. Victor Lawal</span>
+    <a href="https://victorlawal.com">victorlawal.com</a>
+  </footer>
+
+  <script>
+    // ── Custom cursor ──────────────────────────────────────
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+
+    const links = document.querySelectorAll('a, button');
+    links.forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('expanded'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('expanded'));
+    });
+
+    document.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+      cursor.style.opacity = '1';
+      ring.style.opacity = '1';
+    });
+
+    (function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+
+    // ── Scroll reveal ──────────────────────────────────────
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
 </body>
 </html>
