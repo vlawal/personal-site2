@@ -5,112 +5,169 @@
   <head>
     <title>Ovie Lawal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Optional: clean font upgrade -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --bg: #0B0B0C;
+        --text: #EAEAEA;
+        --muted: #A8A8A8;
+        --soft: #6F6F6F;
+        --line: #1E1E1E;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      main {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 140px 40px;
+      }
+
+      /* HERO */
+      .hero {
+        margin-bottom: 140px;
+      }
+
+      .hero h1 {
+        font-size: 88px;
+        letter-spacing: -3px;
+        line-height: 0.9;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .role {
+        font-size: 20px;
+        color: var(--muted);
+        margin-top: 22px;
+        font-weight: 400;
+      }
+
+      .desc {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #CFCFCF;
+        max-width: 640px;
+        margin-top: 30px;
+      }
+
+      /* SECTIONS */
+      section {
+        margin-top: 140px;
+      }
+
+      .label {
+        font-size: 11px;
+        letter-spacing: 2.2px;
+        color: var(--soft);
+        margin-bottom: 28px;
+      }
+
+      /* WORK */
+      .work-item {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+      }
+
+      .work-item:hover {
+        transform: translateX(6px);
+        color: #ffffff;
+      }
+
+      .work-meta {
+        color: var(--soft);
+        font-size: 13px;
+      }
+
+      /* subtle fade */
+      .fade {
+        animation: fade 0.8s ease-out both;
+      }
+
+      @keyframes fade {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* small screens */
+      @media (max-width: 640px) {
+        .hero h1 {
+          font-size: 54px;
+        }
+
+        main {
+          padding: 100px 24px;
+        }
+      }
+    </style>
   </head>
 
-  <body style="
-    margin:0;
-    background:#0B0B0C;
-    color:#EAEAEA;
-    font-family: system-ui, -apple-system, sans-serif;
-  ">
-
-    <main style="max-width:980px; margin:0 auto; padding:120px 40px;">
+  <body>
+    <main>
 
       <!-- HERO -->
-      <section style="margin-bottom:140px;">
-        <h1 style="
-          font-size:88px;
-          letter-spacing:-3px;
-          line-height:0.9;
-          margin:0;
-        ">
-          Ovie Lawal
-        </h1>
+      <section class="hero fade">
+        <h1>Ovie Lawal</h1>
 
-        <p style="
-          font-size:20px;
-          color:#A8A8A8;
-          margin-top:24px;
-        ">
+        <div class="role">
           Product leader building AI-native financial systems.
-        </p>
+        </div>
 
-        <p style="
-          font-size:18px;
-          line-height:1.7;
-          color:#D0D0D0;
-          max-width:640px;
-          margin-top:32px;
-        ">
+        <div class="desc">
           I design and scale complex fintech and AI products focused on automation,
           working capital systems, and enterprise intelligence.
-        </p>
+        </div>
       </section>
 
       <!-- WORK -->
-      <section style="margin-bottom:140px;">
-        <div style="
-          font-size:12px;
-          letter-spacing:2px;
-          color:#777;
-          margin-bottom:28px;
-        ">
-          SELECTED WORK
-        </div>
+      <section class="fade">
+        <div class="label">SELECTED WORK</div>
 
-        <div style="display:flex; flex-direction:column; gap:18px;">
-
-          <div style="
-            padding:18px 0;
-            border-bottom:1px solid #1E1E1E;
-            color:#DADADA;
-          ">
-            AI Cash Forecasting Platform — Kyriba
+        <div>
+          <div class="work-item">
+            <span>AI Cash Forecasting Platform</span>
+            <span class="work-meta">Kyriba</span>
           </div>
 
-          <div style="
-            padding:18px 0;
-            border-bottom:1px solid #1E1E1E;
-            color:#DADADA;
-          ">
-            Trade Finance Optimization Engine
+          <div class="work-item">
+            <span>Trade Finance Optimization Engine</span>
+            <span class="work-meta">Enterprise</span>
           </div>
 
-          <div style="
-            padding:18px 0;
-            border-bottom:1px solid #1E1E1E;
-            color:#DADADA;
-          ">
-            Working Capital Intelligence System
+          <div class="work-item">
+            <span>Working Capital Intelligence System</span>
+            <span class="work-meta">Fintech</span>
           </div>
-
         </div>
       </section>
 
       <!-- ABOUT -->
-      <section>
-        <div style="
-          font-size:12px;
-          letter-spacing:2px;
-          color:#777;
-          margin-bottom:28px;
-        ">
-          ABOUT
-        </div>
+      <section class="fade">
+        <div class="label">ABOUT</div>
 
-        <p style="
-          font-size:18px;
-          line-height:1.75;
-          color:#CFCFCF;
-          max-width:640px;
-        ">
+        <div class="desc">
           I work at the intersection of product management, fintech infrastructure,
           and applied AI. My focus is building systems that automate financial decision-making
           at enterprise scale.
-        </p>
+        </div>
       </section>
 
     </main>
-
   </body>
 </html>
