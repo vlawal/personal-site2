@@ -3,10 +3,10 @@
 
 <html lang="en">
 <head>
-  <title>Victor Lawal</title>
+  <title>Dr. Victor Lawal</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Victor Lawal — Product Director at the intersection of fintech, AI, and working capital. Based in Paris." />
+  <meta name="description" content="Dr. Victor Lawal — Product Director at the intersection of fintech, AI, and working capital. Based in Paris." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -125,11 +125,23 @@
       font-size: 17px;
       line-height: 1.8;
       color: #CFCFCF;
-      max-width: 620px;
       margin-top: 28px;
     }
 
-    .portrait-wrap { position: relative; }
+    .portrait-wrap {
+      position: relative;
+    }
+
+    /* subtle glow behind portrait */
+    .portrait-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      border-radius: 44px;
+      background: radial-gradient(ellipse at 50% 40%, rgba(212,175,114,0.18) 0%, rgba(212,175,114,0.04) 55%, transparent 75%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
     .portrait {
       width: 100%;
@@ -137,6 +149,8 @@
       object-fit: cover;
       filter: grayscale(8%) contrast(1.05);
       display: block;
+      position: relative;
+      z-index: 1;
     }
 
     /* placeholder when no portrait */
@@ -151,6 +165,8 @@
       justify-content: center;
       color: var(--soft);
       font-size: 13px;
+      position: relative;
+      z-index: 1;
     }
 
     /* SECTIONS */
@@ -171,20 +187,38 @@
       align-items: baseline;
       padding: 22px 0;
       border-bottom: 1px solid var(--line);
-      transition: all 0.25s ease;
       gap: 24px;
+      cursor: default;
+      transition: padding-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .work-item:first-child { border-top: 1px solid var(--line); }
 
-    .work-item:hover { transform: translateX(6px); }
+    .work-item:hover { padding-left: 10px; }
 
-    .work-title { font-size: 16px; font-weight: 400; }
+    .work-item:hover .work-title {
+      color: #fff;
+    }
+
+    .work-item:hover .work-sub {
+      color: var(--muted);
+    }
+
+    .work-item:hover .work-meta {
+      color: var(--accent);
+    }
+
+    .work-title {
+      font-size: 16px;
+      font-weight: 400;
+      transition: color 0.25s ease;
+    }
 
     .work-sub {
       font-size: 13px;
       color: var(--soft);
       margin-top: 4px;
+      transition: color 0.25s ease;
     }
 
     .work-meta {
@@ -192,14 +226,20 @@
       color: var(--soft);
       white-space: nowrap;
       flex-shrink: 0;
+      transition: color 0.25s ease;
     }
+
+    /* READING RHYTHM — constrain prose to ~65ch for comfortable scanning */
+    .desc        { max-width: 54ch; }
+    .about-text  { max-width: 62ch; }
+    .contact-intro { max-width: 42ch; }
+    .ovl-desc    { max-width: 56ch; }
 
     /* ABOUT */
     .about-text {
       font-size: 17px;
       line-height: 1.8;
       color: #CFCFCF;
-      max-width: 640px;
     }
 
     .about-text p { margin-bottom: 20px; }
@@ -236,7 +276,6 @@
       font-size: 15px;
       line-height: 1.7;
       color: var(--muted);
-      max-width: 480px;
       margin-bottom: 20px;
     }
 
@@ -386,7 +425,7 @@
 
     <!-- NAV -->
     <nav>
-      <div class="nav-name">Victor Lawal</div>
+      <div class="nav-name">Dr. Victor Lawal</div>
       <div class="nav-links">
         <a href="#work">Work</a>
         <a href="#about">About</a>
@@ -494,7 +533,7 @@
             Whether you want to talk product, fintech, AI, or just have an interesting
             conversation — I'm always open to it.
           </p>
-          <a href="https://linkedin.com/in/victorlawal" target="_blank" rel="noopener" class="contact-link">
+          <a href="https://linkedin.com/in/vlawal" target="_blank" rel="noopener" class="contact-link">
             <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
@@ -522,7 +561,7 @@
 
     <!-- FOOTER -->
     <footer>
-      <span>© 2025 Victor Lawal</span>
+      <span>© 2025 Dr. Victor Lawal</span>
       <span>victorlawal.com</span>
     </footer>
 
