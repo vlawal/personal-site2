@@ -2,268 +2,530 @@
 ---
 
 <html lang="en">
-  <head>
-    <title>Ovie Lawal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <title>Victor Lawal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Victor Lawal — Product Director at the intersection of fintech, AI, and working capital. Based in Paris." />
 
-    <!-- Sans + Serif contrast -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 
-    <style>
-      :root {
-        --bg: #0B0B0C;
-        --text: #EDEDED;
-        --muted: #A3A3A3;
-        --soft: #6E6E6E;
-        --line: #1C1C1C;
-      }
+  <style>
+    :root {
+      --bg: #0B0B0C;
+      --text: #EDEDED;
+      --muted: #A3A3A3;
+      --soft: #6E6E6E;
+      --line: #1C1C1C;
+      --accent: #D4AF72;
+    }
 
-      * {
-        box-sizing: border-box;
-      }
+    * { box-sizing: border-box; }
 
-      body {
-        margin: 0;
-        color: var(--text);
-        font-family: "Inter", system-ui, sans-serif;
-        background: var(--bg);
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-        overflow-x: hidden;
-      }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
 
-      /* subtle noise texture (signature layer) */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
-        opacity: 0.35;
-      }
+    /* subtle noise texture */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+      opacity: 0.35;
+      z-index: 0;
+    }
 
-      main {
-        max-width: 880px;
-        margin: 0 auto;
-        padding: 160px 28px;
-      }
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 160px 28px;
+      position: relative;
+      z-index: 1;
+    }
 
-      nav {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 120px;
-        font-size: 13px;
-        color: var(--soft);
-      }
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 120px;
+      font-size: 13px;
+      color: var(--soft);
+    }
 
-      nav a {
-        color: var(--soft);
-        text-decoration: none;
-        margin-left: 18px;
-      }
+    nav .nav-name {
+      color: var(--soft);
+      letter-spacing: 0.02em;
+    }
 
-      nav a:hover {
-        color: var(--text);
-      }
+    nav .nav-links a {
+      color: var(--soft);
+      text-decoration: none;
+      margin-left: 18px;
+      transition: color 0.2s ease;
+    }
 
-      /* HERO (signature typography mix) */
-      .hero {
-        margin-bottom: 160px;
-      }
+    nav .nav-links a:hover { color: var(--text); }
 
-      h1 {
-        font-size: 86px;
-        letter-spacing: -3px;
-        line-height: 0.9;
-        margin: 0;
-        font-weight: 500;
-      }
+    /* HERO */
+    .hero { margin-bottom: 160px; }
 
-      /* serif accent line = identity layer */
-      .accent {
-        font-family: "Playfair Display", serif;
-        font-weight: 400;
-        font-size: 22px;
-        margin-top: 18px;
-        color: #CFCFCF;
-        letter-spacing: 0.2px;
-      }
-
-      .role {
-        font-size: 18px;
-        color: var(--muted);
-        margin-top: 22px;
-      }
-
-      .desc {
-        font-size: 17px;
-        line-height: 1.8;
-        color: #CFCFCF;
-        max-width: 620px;
-        margin-top: 28px;
-      }
-
-      section {
-        margin-top: 160px;
-      }
-
-      .label {
-        font-size: 11px;
-        letter-spacing: 2.4px;
-        color: var(--soft);
-        margin-bottom: 28px;
-      }
-
-      .work-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px 0;
-        border-bottom: 1px solid var(--line);
-        transition: all 0.25s ease;
-      }
-
-      .work-item:hover {
-        transform: translateX(6px);
-        color: #fff;
-      }
-
-      .work-meta {
-        font-size: 13px;
-        color: var(--soft);
-      }
-
-      /* softer motion (more premium feel) */
-      .fade {
-        animation: fade 0.9s ease-out both;
-      }
-
-      @keyframes fade {
-        from { opacity: 0; transform: translateY(16px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      @media (max-width: 640px) {
-        h1 { font-size: 52px; }
-
-        main {
-          padding: 110px 20px;
-        }
-
-        nav {
-          flex-direction: column;
-          gap: 10px;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <main>
-
-      <nav>
-        <div>Ovie Lawal</div>
-        <div>
-          <a href="#">Work</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-        </div>
-      </nav>
-
-      <!-- HERO -->
-      <section class="hero fade">
-
-  <div class="hero-grid">
-
-    <div>
-      <h1>Product leader<br/>building AI systems</h1>
-
-      <div class="accent">
-        Designing intelligence for financial infrastructure
-      </div>
-
-      <div class="role">
-        AI-native financial systems & enterprise automation.
-      </div>
-
-      <div class="desc">
-        I design and scale complex fintech and AI products focused on automation,
-        working capital systems, and enterprise intelligence.
-      </div>
-    </div>
-
-    <div class="portrait-wrap">
-      <img src="/portrait.jpg" alt="Ovie Lawal" class="portrait" />
-    </div>
-
-  </div>
-
-</section>
-
-<style>
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 60px;
-    align-items: center;
-  }
-
-  .portrait-wrap {
-    position: relative;
-  }
-
-  .portrait {
-    width: 100%;
-    border-radius: 28px;
-    object-fit: cover;
-    filter: grayscale(8%) contrast(1.05);
-  }
-
-  @media (max-width: 900px) {
     .hero-grid {
-      grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
     }
 
-    .portrait-wrap {
-      order: -1;
+    h1 {
+      font-size: 86px;
+      letter-spacing: -3px;
+      line-height: 0.9;
+      margin: 0;
+      font-weight: 500;
     }
-  }
-</style>
 
-      <!-- WORK -->
-      <section class="fade">
-        <div class="label">SELECTED WORK</div>
+    .accent {
+      font-family: "Playfair Display", serif;
+      font-weight: 400;
+      font-size: 22px;
+      margin-top: 18px;
+      color: #CFCFCF;
+      letter-spacing: 0.2px;
+    }
 
+    .role {
+      font-size: 15px;
+      color: var(--muted);
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .role-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .desc {
+      font-size: 17px;
+      line-height: 1.8;
+      color: #CFCFCF;
+      max-width: 620px;
+      margin-top: 28px;
+    }
+
+    .portrait-wrap { position: relative; }
+
+    .portrait {
+      width: 100%;
+      border-radius: 28px;
+      object-fit: cover;
+      filter: grayscale(8%) contrast(1.05);
+      display: block;
+    }
+
+    /* placeholder when no portrait */
+    .portrait-placeholder {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 28px;
+      background: #141414;
+      border: 1px dashed #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--soft);
+      font-size: 13px;
+    }
+
+    /* SECTIONS */
+    section { margin-top: 160px; }
+
+    .label {
+      font-size: 11px;
+      letter-spacing: 2.4px;
+      color: var(--soft);
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+
+    /* WORK */
+    .work-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+      transition: all 0.25s ease;
+      gap: 24px;
+    }
+
+    .work-item:first-child { border-top: 1px solid var(--line); }
+
+    .work-item:hover { transform: translateX(6px); }
+
+    .work-title { font-size: 16px; font-weight: 400; }
+
+    .work-sub {
+      font-size: 13px;
+      color: var(--soft);
+      margin-top: 4px;
+    }
+
+    .work-meta {
+      font-size: 13px;
+      color: var(--soft);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ABOUT */
+    .about-text {
+      font-size: 17px;
+      line-height: 1.8;
+      color: #CFCFCF;
+      max-width: 640px;
+    }
+
+    .about-text p { margin-bottom: 20px; }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    /* OVL SHOW */
+    .ovl-block {
+      border: 1px solid #1e1e1e;
+      border-radius: 20px;
+      padding: 36px 40px;
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      background: #0f0f0f;
+    }
+
+    .ovl-symbol {
+      font-family: "Playfair Display", serif;
+      font-size: 48px;
+      line-height: 1;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .ovl-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .ovl-desc {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 20px;
+    }
+
+    .ovl-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--accent);
+      border: 1px solid rgba(212,175,114,0.25);
+      border-radius: 40px;
+      padding: 8px 20px;
+      text-decoration: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .ovl-cta:hover {
+      border-color: rgba(212,175,114,0.5);
+      background: rgba(212,175,114,0.05);
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-intro {
+      font-size: 17px;
+      line-height: 1.8;
+      color: #CFCFCF;
+      margin-bottom: 28px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .contact-link:hover { color: var(--text); }
+
+    .contact-link svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.6;
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--soft);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: #111111;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
+      transition: border-color 0.2s ease;
+      outline: none;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus { border-color: #333; }
+
+    .form-textarea { resize: none; height: 100px; }
+
+    .form-btn {
+      width: 100%;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: "Inter", system-ui, sans-serif;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      margin-top: 4px;
+    }
+
+    .form-btn:hover { opacity: 0.85; }
+
+    /* FOOTER */
+    footer {
+      margin-top: 160px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--soft);
+    }
+
+    /* ANIMATIONS */
+    .fade {
+      animation: fade 0.9s ease-out both;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .portrait-wrap, .portrait-placeholder {
+        order: -1;
+        max-width: 280px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 52px; }
+      main { padding: 80px 20px; }
+      nav { flex-direction: column; gap: 16px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .ovl-block { flex-direction: column; gap: 16px; padding: 28px 24px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+
+    <!-- NAV -->
+    <nav>
+      <div class="nav-name">Victor Lawal</div>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#ovl">The OVL Show</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero fade">
+      <div class="hero-grid">
         <div>
-          <div class="work-item">
-            <span>AI Cash Forecasting Platform</span>
-            <span class="work-meta">Kyriba</span>
+          <h1>Product leader<br/>building AI systems</h1>
+          <div class="accent">Designing intelligence for financial infrastructure</div>
+          <div class="role">
+            <span class="role-dot"></span>
+            Product Director · Kyriba · Paris
           </div>
-
-          <div class="work-item">
-            <span>Trade Finance Optimization Engine</span>
-            <span class="work-meta">Enterprise</span>
-          </div>
-
-          <div class="work-item">
-            <span>Working Capital Intelligence System</span>
-            <span class="work-meta">Fintech</span>
+          <div class="desc">
+            I design and scale complex fintech and AI products — from trade finance
+            automation to working capital intelligence — built for enterprise teams
+            that can't afford to get it wrong.
           </div>
         </div>
-      </section>
-
-      <!-- ABOUT -->
-      <section class="fade">
-        <div class="label">ABOUT</div>
-
-        <div class="desc">
-          I work at the intersection of product management, fintech infrastructure,
-          and applied AI. My focus is building systems that automate financial decision-making
-          at enterprise scale.
+        <div class="portrait-wrap">
+          <!-- Replace with: <img src="/portrait.jpg" alt="Victor Lawal" class="portrait" /> -->
+          <div class="portrait-placeholder">your photo here</div>
         </div>
-      </section>
+      </div>
+    </section>
 
-    </main>
-  </body>
+    <!-- WORK -->
+    <section id="work" class="fade">
+      <div class="label">Selected work</div>
+      <div>
+        <div class="work-item">
+          <div>
+            <div class="work-title">AI Cash Forecasting Platform</div>
+            <div class="work-sub">Kyriba's first AI-powered forecasting product — designed and shipped from zero</div>
+          </div>
+          <span class="work-meta">Kyriba · 2024</span>
+        </div>
+        <div class="work-item">
+          <div>
+            <div class="work-title">Reverse Factoring Integration</div>
+            <div class="work-sub">HSBC supply chain finance integration with end-to-end ledger reporting</div>
+          </div>
+          <span class="work-meta">Kyriba · Enterprise</span>
+        </div>
+        <div class="work-item">
+          <div>
+            <div class="work-title">Working Capital Intelligence System</div>
+            <div class="work-sub">Trade finance optimisation engine for global treasury operations</div>
+          </div>
+          <span class="work-meta">Fintech · Enterprise</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="fade">
+      <div class="label">About</div>
+      <div class="about-text">
+        <p>
+          I'm a Product Director based in Paris, working at the crossroads of enterprise
+          fintech, AI, and working capital innovation. For over six years, I've been
+          building and scaling trade finance and treasury products at Kyriba, one of the
+          world's leading cloud treasury platforms.
+        </p>
+        <p>
+          Beyond product, I'm a researcher. My doctoral work explores how product managers
+          adopt AI tools — what drives or blocks that adoption, and what it means for the
+          future of software development. I believe the most important questions in tech
+          are rarely just technical.
+        </p>
+      </div>
+    </section>
+
+    <!-- THE OVL SHOW -->
+    <section id="ovl" class="fade">
+      <div class="label">The OVL Show</div>
+      <div class="ovl-block">
+        <div class="ovl-symbol">◎</div>
+        <div>
+          <div class="ovl-title">The OVL Show</div>
+          <p class="ovl-desc">
+            A podcast about the ideas, decisions, and people behind the things we build.
+            Conversations on leadership, technology, and what it really takes to make
+            something that lasts.
+          </p>
+          <a href="#" class="ovl-cta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Follow the show — coming soon
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="fade">
+      <div class="label">Contact</div>
+      <div class="contact-grid">
+        <div>
+          <p class="contact-intro">
+            Whether you want to talk product, fintech, AI, or just have an interesting
+            conversation — I'm always open to it.
+          </p>
+          <a href="https://linkedin.com/in/victorlawal" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+        </div>
+        <form
+          action="https://formspree.io/f/YOUR_FORM_ID"
+          method="POST"
+        >
+          <div class="form-group">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-input" id="name" name="name" type="text" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" id="email" name="email" type="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button class="form-btn" type="submit">Send message →</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span>© 2025 Victor Lawal</span>
+      <span>victorlawal.com</span>
+    </footer>
+
+  </main>
+</body>
 </html>
