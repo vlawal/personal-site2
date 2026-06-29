@@ -490,6 +490,7 @@
     .work-item {
       display: grid;
       grid-template-columns: 80px 1fr auto;
+      grid-template-rows: auto auto;
       gap: 32px;
       align-items: baseline;
       padding: 28px 0;
@@ -533,6 +534,93 @@
       text-transform: uppercase;
       color: var(--dim);
       white-space: nowrap;
+    }
+
+    /* ── WORK: EXPANDABLE DETAIL ───────────────────────────── */
+    .work-item.expandable { cursor: pointer; }
+
+    .work-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 12px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--ff-sans);
+    }
+
+    .work-toggle svg {
+      transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .work-item.open .work-toggle svg {
+      transform: rotate(45deg);
+    }
+
+    .work-detail {
+      grid-column: 1 / -1;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .work-item.open .work-detail {
+      max-height: 600px;
+    }
+
+    .work-detail-inner {
+      padding: 24px 0 4px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .work-detail-col-label {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 10px;
+    }
+
+    .work-detail-col p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(240,237,232,0.55);
+    }
+
+    .work-metrics {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .work-metric {
+      border: 1px solid var(--line);
+      padding: 10px 16px;
+    }
+
+    .work-metric-value {
+      font-family: var(--ff-serif);
+      font-size: 22px;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .work-metric-label {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     /* ── OVL SHOW ───────────────────────────────────────────── */
@@ -726,6 +814,7 @@
       .expertise-grid { grid-template-columns: 1fr; }
       .work-item { grid-template-columns: 56px 1fr; }
       .work-tag { display: none; }
+      .work-detail-inner { grid-template-columns: 1fr; gap: 20px; }
       .contact-links { flex-direction: column; align-items: center; gap: 24px; }
     }
   </style>
@@ -859,22 +948,151 @@
       <p class="section-label">Selected work</p>
       <h2 id="work-heading" style="margin-bottom: 48px;">Built<br><em>at scale</em></h2>
       <div>
-        <article class="work-item">
+
+        <article class="work-item expandable" data-work="forecasting">
           <div class="work-year">2024</div>
           <div>
             <div class="work-title">AI Cash Forecasting Platform</div>
             <p class="work-sub">Kyriba's first AI-powered forecasting product — designed and shipped from zero to enterprise deployment.</p>
+            <button class="work-toggle" aria-expanded="false" aria-controls="detail-forecasting">
+              Case study
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
           </div>
           <span class="work-tag">Kyriba</span>
+          <div class="work-detail" id="detail-forecasting">
+            <div class="work-detail-inner">
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Problem</div>
+                <p>Treasury teams relied on manual, spreadsheet-driven cash forecasting — slow to update and prone to error, leaving CFOs with limited visibility into near-term liquidity.</p>
+              </div>
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Approach</div>
+                <p>Led the product from concept through GA as Kyriba's first AI-powered offering — defining the forecasting model's product requirements, working through enterprise rollout, and driving adoption across the client base in the first two quarters post-launch.</p>
+              </div>
+              <div class="work-metrics">
+                <div class="work-metric">
+                  <div class="work-metric-value">80%</div>
+                  <div class="work-metric-label">Forecast accuracy</div>
+                </div>
+                <div class="work-metric">
+                  <div class="work-metric-value">11%</div>
+                  <div class="work-metric-label">Client adoption in 6 months</div>
+                </div>
+                <div class="work-metric">
+                  <div class="work-metric-value">↑</div>
+                  <div class="work-metric-label">Enhanced liquidity planning</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </article>
-        <article class="work-item">
+
+        <article class="work-item expandable" data-work="reverse-factoring">
           <div class="work-year">2023</div>
           <div>
             <div class="work-title">Reverse Factoring Integration</div>
             <p class="work-sub">HSBC supply chain finance integration with end-to-end ledger reporting and interest rate management.</p>
+            <button class="work-toggle" aria-expanded="false" aria-controls="detail-reverse-factoring">
+              Case study
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
           </div>
           <span class="work-tag">Kyriba · HSBC</span>
+          <div class="work-detail" id="detail-reverse-factoring">
+            <div class="work-detail-inner">
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Problem</div>
+                <p>HSBC needed a reverse factoring programme capable of handling periodic buyer interest (BBI) calculations and ledger reporting at multinational scale — replacing a legacy setup that limited geographic reach and time-to-market.</p>
+              </div>
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Approach</div>
+                <p>Led product delivery on the BBI periodic interest enhancement and the underlying ledger reporting architecture, while driving the platform's migration from a legacy system to a SaaS model to support faster client onboarding.</p>
+              </div>
+              <div class="work-metrics">
+                <div class="work-metric">
+                  <div class="work-metric-value">$11.5bn</div>
+                  <div class="work-metric-label">Programme volume</div>
+                </div>
+                <div class="work-metric">
+                  <div class="work-metric-value">20+</div>
+                  <div class="work-metric-label">Countries</div>
+                </div>
+                <div class="work-metric">
+                  <div class="work-metric-value">SaaS</div>
+                  <div class="work-metric-label">Legacy → cloud migration</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </article>
+
+        <article class="work-item expandable" data-work="rtsm">
+          <div class="work-year">Kyriba</div>
+          <div>
+            <div class="work-title">Real-Time Supplier Management</div>
+            <p class="work-sub">Onboarding engine that collapsed supplier setup time from months to days for global supply chain finance programmes.</p>
+            <button class="work-toggle" aria-expanded="false" aria-controls="detail-rtsm">
+              Case study
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
+          </div>
+          <span class="work-tag">Kyriba</span>
+          <div class="work-detail" id="detail-rtsm">
+            <div class="work-detail-inner">
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Problem</div>
+                <p>Supplier onboarding for supply chain finance programmes was a slow, document-heavy manual process, taking 1–3 months per supplier — a major bottleneck to programme scale and buyer adoption.</p>
+              </div>
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Approach</div>
+                <p>Designed and built a real-time supplier management workflow to digitise and parallelise onboarding steps that had previously run sequentially through manual review.</p>
+              </div>
+              <div class="work-metrics">
+                <div class="work-metric">
+                  <div class="work-metric-value">1–5 days</div>
+                  <div class="work-metric-label">From 1–3 months onboarding</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-item expandable" data-work="pmf">
+          <div class="work-year">Kyriba</div>
+          <div>
+            <div class="work-title">Post-Maturity Financing</div>
+            <p class="work-sub">Extension of traditional supply chain finance to improve buyer payment terms while keeping financing off-balance-sheet.</p>
+            <button class="work-toggle" aria-expanded="false" aria-controls="detail-pmf">
+              Case study
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
+          </div>
+          <span class="work-tag">Kyriba</span>
+          <div class="work-detail" id="detail-pmf">
+            <div class="work-detail-inner">
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Problem</div>
+                <p>Traditional supply chain finance products extend supplier payment terms but cap out on how much additional DPO flexibility buyer corporates can unlock without affecting balance sheet treatment.</p>
+              </div>
+              <div class="work-detail-col">
+                <div class="work-detail-col-label">Approach</div>
+                <p>Designed and developed a post-maturity financing product extending standard SCF structures, built to keep the financing classification off-balance-sheet for buyer corporates.</p>
+              </div>
+              <div class="work-metrics">
+                <div class="work-metric">
+                  <div class="work-metric-value">30+ days</div>
+                  <div class="work-metric-label">DPO improvement</div>
+                </div>
+                <div class="work-metric">
+                  <div class="work-metric-value">Off-BS</div>
+                  <div class="work-metric-label">Balance sheet treatment</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <article class="work-item">
           <div class="work-year">Ongoing</div>
           <div>
@@ -883,6 +1101,7 @@
           </div>
           <span class="work-tag">Enterprise</span>
         </article>
+
         <article class="work-item">
           <div class="work-year">Co-Founder</div>
           <div>
@@ -891,6 +1110,7 @@
           </div>
           <span class="work-tag">SCFPro</span>
         </article>
+
       </div>
     </div>
   </section>
@@ -1029,6 +1249,17 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── Work item expand/collapse ──────────────────────────
+    document.querySelectorAll('.work-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const item = btn.closest('.work-item');
+        const isOpen = item.classList.contains('open');
+        item.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
   </script>
 
 </body>
