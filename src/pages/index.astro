@@ -3,28 +3,37 @@
 
 <html lang="en">
 <head>
-  <title>Dr. Victor Lawal</title>
+  <title>Dr. Victor Lawal — Product Leader, Fintech & AI</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Dr. Victor Lawal — Product Leader at the intersection of fintech, AI, and working capital. Based in Paris." />
+  <meta name="description" content="Dr. Victor Lawal — Product Director at Kyriba, doctoral researcher in AI adoption, co-founder of SCFPro. 20 years building financial technology that moves money at scale." />
+  <meta property="og:title" content="Dr. Victor Lawal — Product Leader, Fintech & AI" />
+  <meta property="og:description" content="Product Director at Kyriba. Doctoral researcher. Co-founder, SCFPro. 20 years building financial technology that moves money at scale." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://victorlawal.com" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 
   <style>
     /* ── TOKENS ─────────────────────────────────────────────── */
     :root {
-      --bg:       #0A0A0A;
-      --surface:  #141414;
-      --line:     rgba(255,255,255,0.07);
-      --text:     #F0EDE8;
-      --muted:    #7A7670;
-      --dim:      #3A3835;
-      --gold:     #C9A84C;
-      --gold-dim: rgba(201,168,76,0.12);
-      --ff-serif: "Cormorant Garamond", Georgia, serif;
-      --ff-sans:  "DM Sans", system-ui, sans-serif;
+      --bg:         #080808;
+      --surface:    #111111;
+      --surface-2:  #181818;
+      --line:       rgba(255,255,255,0.06);
+      --line-warm:  rgba(201,168,76,0.12);
+      --text:       #F0EDE8;
+      --muted:      #8A8680;
+      --dim:        #4A4845;
+      --gold:       #C9A84C;
+      --gold-soft:  #D4B86A;
+      --gold-dim:   rgba(201,168,76,0.10);
+      --ff-serif:   "Cormorant Garamond", Georgia, serif;
+      --ff-sans:    "DM Sans", system-ui, sans-serif;
+      --ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --ease-out:   cubic-bezier(0.0, 0.0, 0.2, 1.0);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,121 +49,146 @@
       overflow-x: hidden;
     }
 
-    /* Custom cursor only on true pointer devices — never on touch or keyboard-only */
     @media (pointer: fine) {
       body.has-custom-cursor { cursor: none; }
+    }
+
+    /* ── SKIP LINK ──────────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 16px;
+      z-index: 9999;
+      padding: 12px 20px;
+      background: var(--gold);
+      color: #080808;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus { top: 16px; }
+
+    /* ── FOCUS ──────────────────────────────────────────────── */
+    :focus-visible {
+      outline: 1.5px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    /* ── REDUCED MOTION ─────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      #cursor, #cursor-ring { display: none !important; }
     }
 
     /* ── CUSTOM CURSOR ──────────────────────────────────────── */
     #cursor {
       position: fixed;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--gold);
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: opacity 0.2s ease;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      display: none;
     }
 
     #cursor-ring {
       position: fixed;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.4);
+      border: 1px solid rgba(201,168,76,0.35);
       pointer-events: none;
       z-index: 9998;
       transform: translate(-50%, -50%);
-      transition: width 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
-                  height 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
-                  border-color 0.3s ease;
+      transition: width 0.4s var(--ease), height 0.4s var(--ease), border-color 0.3s ease, opacity 0.2s ease;
+      display: none;
     }
 
-    #cursor-ring.expanded {
-      width: 56px;
-      height: 56px;
-      border-color: rgba(201,168,76,0.7);
+    #cursor-ring.hovering {
+      width: 52px;
+      height: 52px;
+      border-color: rgba(201,168,76,0.6);
     }
 
-    /* ── NOISE TEXTURE ──────────────────────────────────────── */
-    body::after {
+    /* ── NOISE OVERLAY ──────────────────────────────────────── */
+    body::before {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 100;
-      opacity: 1;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      z-index: 1000;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
     }
 
     /* ── NAV ────────────────────────────────────────────────── */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 500;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 28px 48px;
+      padding: 32px 56px;
+      transition: padding 0.4s var(--ease), background 0.4s ease;
     }
 
-    nav::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
-      pointer-events: none;
+    nav.scrolled {
+      padding: 20px 56px;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
 
     .nav-monogram {
       font-family: var(--ff-serif);
-      font-size: 22px;
-      font-weight: 300;
+      font-size: 20px;
+      font-weight: 400;
       color: var(--text);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-decoration: none;
-      position: relative;
-      z-index: 1;
     }
-
     .nav-monogram span { color: var(--gold); }
 
     .nav-links {
       display: flex;
-      gap: 36px;
-      position: relative;
-      z-index: 1;
+      gap: 40px;
     }
 
     .nav-links a {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 400;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
       position: relative;
-      padding-bottom: 2px;
+      padding-bottom: 3px;
       transition: color 0.25s ease;
     }
 
     .nav-links a::after {
       content: "";
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 1px;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
       background: var(--gold);
-      transition: width 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: width 0.35s var(--ease);
     }
 
     .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold); }
+    .nav-links a.active::after { width: 100%; }
 
     /* ── HERO ───────────────────────────────────────────────── */
     .hero {
@@ -165,15 +199,29 @@
       overflow: hidden;
     }
 
+    /* Ambient gradient — gives depth without being garish */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 70%;
+      height: 80%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.045) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Giant background initial — textural, not literal */
     .hero-bg-letter {
       position: absolute;
-      right: -0.05em;
-      bottom: -0.25em;
+      right: -0.04em;
+      bottom: -0.22em;
       font-family: var(--ff-serif);
-      font-size: clamp(280px, 40vw, 520px);
+      font-size: clamp(300px, 42vw, 560px);
       font-weight: 300;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(201,168,76,0.06);
+      -webkit-text-stroke: 1px rgba(201,168,76,0.055);
       line-height: 1;
       pointer-events: none;
       user-select: none;
@@ -184,32 +232,44 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 140px 48px 80px 48px;
+      padding: 160px 56px 96px 56px;
       position: relative;
       z-index: 1;
     }
 
     .hero-eyebrow {
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.3em;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 28px;
+      margin-bottom: 32px;
       opacity: 0;
       animation: fadeUp 0.8s 0.2s ease-out forwards;
     }
 
+    .hero-eyebrow::before {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+
     h1 {
       font-family: var(--ff-serif);
-      font-size: clamp(4rem, 7vw, 8.5rem);
+      font-size: clamp(4.2rem, 7.5vw, 9rem);
       font-weight: 300;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
+      line-height: 0.92;
+      letter-spacing: -0.025em;
       color: var(--text);
-      margin-bottom: 32px;
+      margin-bottom: 36px;
       opacity: 0;
-      animation: fadeUp 0.9s 0.4s ease-out forwards;
+      animation: fadeUp 0.9s 0.35s ease-out forwards;
     }
 
     h1 em {
@@ -219,38 +279,85 @@
 
     .hero-tagline {
       font-family: var(--ff-serif);
-      font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
       font-weight: 300;
       font-style: italic;
-      color: rgba(240,237,232,0.5);
-      max-width: 44ch;
-      line-height: 1.55;
-      margin-bottom: 44px;
+      color: rgba(240,237,232,0.45);
+      max-width: 42ch;
+      line-height: 1.6;
+      margin-bottom: 52px;
       opacity: 0;
-      animation: fadeUp 0.9s 0.6s ease-out forwards;
+      animation: fadeUp 0.9s 0.55s ease-out forwards;
     }
 
     .hero-creds {
       display: flex;
-      gap: 28px;
-      align-items: center;
+      gap: 0;
+      align-items: stretch;
       flex-wrap: wrap;
       opacity: 0;
-      animation: fadeUp 0.9s 0.8s ease-out forwards;
+      animation: fadeUp 0.9s 0.75s ease-out forwards;
+      border-top: 1px solid var(--line);
+      padding-top: 28px;
     }
 
     .hero-cred-item {
       font-size: 10px;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
+      padding-right: 24px;
+      margin-right: 24px;
+      border-right: 1px solid var(--line);
+      line-height: 1;
+      display: flex;
+      align-items: center;
     }
 
-    .hero-cred-sep {
-      width: 1px;
-      height: 14px;
+    .hero-cred-item:last-child {
+      border-right: none;
+      margin-right: 0;
+      padding-right: 0;
+    }
+
+    /* scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--dim);
+      opacity: 0;
+      animation: fadeIn 1s 1.2s ease-out forwards;
+    }
+
+    .hero-scroll-line {
+      width: 40px;
+      height: 1px;
       background: var(--dim);
-      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-scroll-line::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--gold);
+      animation: scanline 2s 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scanline {
+      0%   { left: -100%; }
+      50%  { left: 100%; }
+      100% { left: 100%; }
     }
 
     .hero-right {
@@ -259,47 +366,46 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 140px 48px 80px 0;
+      padding: 140px 56px 80px 0;
     }
 
     .portrait-frame {
       position: relative;
       width: 100%;
-      max-width: 360px;
+      max-width: 380px;
       opacity: 0;
-      animation: fadeIn 1.2s 0.5s ease-out forwards;
+      animation: fadeIn 1.2s 0.45s ease-out forwards;
     }
 
+    /* Radial glow behind portrait */
     .portrait-frame::before {
       content: "";
       position: absolute;
-      inset: -32px;
-      background: radial-gradient(ellipse at 50% 35%, rgba(201,168,76,0.14) 0%, rgba(201,168,76,0.03) 55%, transparent 72%);
+      inset: -48px;
+      background: radial-gradient(ellipse at 50% 40%, rgba(201,168,76,0.12) 0%, transparent 65%);
       pointer-events: none;
       z-index: 0;
     }
 
+    /* Corner accent — top right */
     .portrait-frame::after {
       content: "";
       position: absolute;
-      top: -8px;
-      right: -8px;
-      width: 40px;
-      height: 40px;
-      border-top: 1px solid rgba(201,168,76,0.4);
-      border-right: 1px solid rgba(201,168,76,0.4);
+      top: -10px; right: -10px;
+      width: 48px; height: 48px;
+      border-top: 1px solid rgba(201,168,76,0.5);
+      border-right: 1px solid rgba(201,168,76,0.5);
       pointer-events: none;
       z-index: 2;
     }
 
+    /* Corner accent — bottom left */
     .portrait-corner-bl {
       position: absolute;
-      bottom: -8px;
-      left: -8px;
-      width: 40px;
-      height: 40px;
-      border-bottom: 1px solid rgba(201,168,76,0.4);
-      border-left: 1px solid rgba(201,168,76,0.4);
+      bottom: -10px; left: -10px;
+      width: 48px; height: 48px;
+      border-bottom: 1px solid rgba(201,168,76,0.5);
+      border-left: 1px solid rgba(201,168,76,0.5);
       pointer-events: none;
       z-index: 2;
     }
@@ -307,9 +413,9 @@
     .portrait {
       width: 100%;
       display: block;
-      border-radius: 4px;
+      border-radius: 2px;
       object-fit: cover;
-      filter: grayscale(10%) contrast(1.06) brightness(0.95);
+      filter: grayscale(8%) contrast(1.05) brightness(0.93);
       position: relative;
       z-index: 1;
     }
@@ -318,8 +424,8 @@
       width: 100%;
       aspect-ratio: 3 / 4;
       background: var(--surface);
-      border-radius: 4px;
-      border: 1px solid var(--dim);
+      border-radius: 2px;
+      border: 1px solid var(--line);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -331,27 +437,26 @@
       z-index: 1;
     }
 
-    /* ── DIVIDER ────────────────────────────────────────────── */
+    /* ── SECTION DEFAULTS ───────────────────────────────────── */
     hr {
       border: none;
       border-top: 1px solid var(--line);
       margin: 0;
     }
 
-    /* ── SECTIONS ───────────────────────────────────────────── */
     section {
-      padding: 120px 48px;
-      max-width: 1200px;
+      padding: 128px 56px;
+      max-width: 1240px;
       margin: 0 auto;
     }
 
     .section-label {
       font-size: 9px;
       font-weight: 500;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.38em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 56px;
+      margin-bottom: 64px;
       display: flex;
       align-items: center;
       gap: 16px;
@@ -359,78 +464,126 @@
 
     .section-label::after {
       content: "";
-      width: 48px;
+      width: 40px;
       height: 1px;
       background: var(--gold);
-      opacity: 0.4;
+      opacity: 0.35;
     }
 
+    /* Scroll reveal */
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.85s cubic-bezier(0.25,0.46,0.45,0.94),
-                  transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94);
+      transform: translateY(28px);
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
     }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Staggered children */
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
     }
 
-    /* ── ABOUT ──────────────────────────────────────────────── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
+    .reveal-stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay: 0.05s; }
+    .reveal-stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay: 0.15s; }
+    .reveal-stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay: 0.25s; }
+    .reveal-stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay: 0.35s; }
 
     h2 {
       font-family: var(--ff-serif);
-      font-size: clamp(2rem, 3.5vw, 3.5rem);
+      font-size: clamp(2.2rem, 3.8vw, 3.8rem);
       font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -0.01em;
+      line-height: 1.08;
+      letter-spacing: -0.015em;
       color: var(--text);
       margin-bottom: 28px;
     }
 
     h2 em {
       font-style: italic;
-      color: rgba(240,237,232,0.45);
+      color: rgba(240,237,232,0.38);
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 96px;
+      align-items: start;
     }
 
     .about-bio {
       font-size: 16px;
-      line-height: 1.9;
-      color: rgba(240,237,232,0.6);
-      max-width: 54ch;
+      line-height: 1.95;
+      color: rgba(240,237,232,0.58);
     }
 
-    .about-bio p { margin-bottom: 20px; }
+    .about-bio p { margin-bottom: 22px; }
     .about-bio p:last-child { margin-bottom: 0; }
 
-    .stat-item {
-      padding: 28px 0;
-      border-bottom: 1px solid var(--line);
+    /* Pull quote — the line that deserves extra weight */
+    .about-pull {
+      font-family: var(--ff-serif);
+      font-size: clamp(1.3rem, 2vw, 1.7rem);
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(240,237,232,0.75);
+      line-height: 1.45;
+      border-left: 1px solid var(--gold);
+      padding-left: 28px;
+      margin: 32px 0;
     }
 
-    .stat-item:first-child { border-top: 1px solid var(--line); }
+    /* Stats — more drama */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      margin-top: 8px;
+    }
+
+    .stat-item {
+      background: var(--bg);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .stat-item:hover { background: var(--surface); }
+
+    .stat-item::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease);
+    }
+
+    .stat-item:hover::after { transform: scaleX(1); }
 
     .stat-number {
       font-family: var(--ff-serif);
-      font-size: 48px;
+      font-size: 3rem;
       font-weight: 300;
       color: var(--text);
       line-height: 1;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .stat-label {
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
+      line-height: 1.4;
     }
 
     /* ── EXPERTISE ──────────────────────────────────────────── */
@@ -444,83 +597,79 @@
 
     .exp-card {
       background: var(--bg);
-      padding: 36px 28px;
+      padding: 40px 32px;
       transition: background 0.3s ease;
       position: relative;
       overflow: hidden;
     }
 
-    .exp-card::after {
+    .exp-card::before {
       content: "";
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 1px;
-      background: var(--gold);
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
       transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: transform 0.5s var(--ease);
     }
 
-    .exp-card:hover { background: #111; }
-    .exp-card:hover::after { transform: scaleX(1); }
+    .exp-card:hover { background: var(--surface); }
+    .exp-card:hover::before { transform: scaleX(1); }
 
-    .exp-num {
-      font-family: var(--ff-serif);
-      font-size: 13px;
+    .exp-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 28px;
       color: var(--gold);
-      opacity: 0.6;
-      margin-bottom: 24px;
-      display: block;
+      opacity: 0.7;
     }
 
     .exp-title {
       font-family: var(--ff-serif);
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 400;
       color: var(--text);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       line-height: 1.2;
     }
 
     .exp-body {
       font-size: 13px;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     /* ── WORK ───────────────────────────────────────────────── */
     .work-item {
       display: grid;
-      grid-template-columns: 80px 1fr auto;
+      grid-template-columns: 88px 1fr auto;
       grid-template-rows: auto auto;
-      gap: 32px;
+      gap: 0 40px;
       align-items: baseline;
-      padding: 28px 0;
+      padding: 32px 0;
       border-bottom: 1px solid var(--line);
-      transition: padding-left 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
-      cursor: default;
+      transition: padding-left 0.4s var(--ease);
     }
 
     .work-item:first-child { border-top: 1px solid var(--line); }
-    .work-item:hover { padding-left: 12px; }
-    .work-item:hover .work-title { color: var(--text); }
-    .work-item:hover .work-year  { color: var(--gold); }
+
+    .work-item.expandable:hover { padding-left: 14px; }
+    .work-item.expandable:hover .work-title { color: var(--text); }
+    .work-item.expandable:hover .work-year  { color: var(--gold-soft); }
 
     .work-year {
       font-size: 11px;
       letter-spacing: 0.1em;
       color: var(--muted);
       transition: color 0.25s ease;
-      padding-top: 4px;
+      padding-top: 5px;
     }
 
     .work-title {
       font-family: var(--ff-serif);
-      font-size: 22px;
+      font-size: 1.45rem;
       font-weight: 400;
-      color: rgba(240,237,232,0.7);
+      color: rgba(240,237,232,0.72);
       transition: color 0.25s ease;
       line-height: 1.2;
     }
@@ -528,103 +677,155 @@
     .work-sub {
       font-size: 13px;
       color: var(--muted);
-      margin-top: 6px;
-      line-height: 1.55;
+      margin-top: 7px;
+      line-height: 1.6;
     }
 
     .work-tag {
-      font-size: 10px;
-      letter-spacing: 0.14em;
+      font-size: 9px;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--dim);
       white-space: nowrap;
+      align-self: start;
+      padding-top: 6px;
     }
 
-    /* ── WORK: EXPANDABLE DETAIL ───────────────────────────── */
-    .work-item.expandable { cursor: pointer; }
-
+    /* Expandable detail */
     .work-toggle {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 10px;
-      letter-spacing: 0.16em;
+      font-size: 9px;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-top: 12px;
+      margin-top: 14px;
       background: none;
       border: none;
       padding: 0;
       cursor: pointer;
       font-family: var(--ff-sans);
+      transition: opacity 0.2s ease;
     }
+
+    .work-toggle:hover { opacity: 0.7; }
 
     .work-toggle svg {
-      transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: transform 0.35s var(--ease);
     }
 
-    .work-item.open .work-toggle svg {
-      transform: rotate(45deg);
-    }
+    .work-item.open .work-toggle svg { transform: rotate(45deg); }
 
     .work-detail {
       grid-column: 1 / -1;
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: max-height 0.5s var(--ease-out);
     }
 
-    .work-item.open .work-detail {
-      max-height: 600px;
-    }
+    .work-item.open .work-detail { max-height: 600px; }
 
     .work-detail-inner {
-      padding: 24px 0 4px 0;
+      padding: 28px 0 8px 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
+      gap: 40px;
+      border-top: 1px solid var(--line);
+      margin-top: 16px;
     }
 
     .work-detail-col-label {
       font-size: 9px;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .work-detail-col p {
       font-size: 13px;
-      line-height: 1.7;
-      color: rgba(240,237,232,0.55);
+      line-height: 1.8;
+      color: rgba(240,237,232,0.5);
     }
 
     .work-metrics {
       grid-column: 1 / -1;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
       margin-top: 8px;
     }
 
     .work-metric {
-      border: 1px solid var(--line);
-      padding: 10px 16px;
+      background: var(--surface);
+      padding: 16px 24px;
+      flex: 1;
+      min-width: 140px;
     }
 
     .work-metric-value {
       font-family: var(--ff-serif);
-      font-size: 22px;
+      font-size: 1.8rem;
       color: var(--gold);
       line-height: 1;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
 
     .work-metric-label {
       font-size: 9px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
+    }
+
+    /* ── RESEARCH ───────────────────────────────────────────── */
+    .research-item {
+      display: grid;
+      grid-template-columns: 88px 1fr auto;
+      gap: 0 40px;
+      align-items: baseline;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding-left 0.4s var(--ease);
+    }
+
+    .research-item:first-child { border-top: 1px solid var(--line); }
+    .research-item:hover { padding-left: 14px; }
+    .research-item:hover .research-title { color: var(--text); }
+
+    .research-year {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding-top: 4px;
+    }
+
+    .research-title {
+      font-family: var(--ff-serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: rgba(240,237,232,0.72);
+      line-height: 1.2;
+      margin-bottom: 8px;
+      transition: color 0.25s ease;
+    }
+
+    .research-sub {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .research-tag {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--dim);
+      white-space: nowrap;
+      padding-top: 5px;
     }
 
     /* ── OVL SHOW ───────────────────────────────────────────── */
@@ -633,28 +834,49 @@
       grid-template-columns: 1fr 1fr;
       gap: 80px;
       align-items: center;
+      background: var(--surface);
       border: 1px solid var(--line);
-      padding: 56px;
+      padding: 64px;
       position: relative;
       overflow: hidden;
     }
 
+    /* Decorative ring watermark */
     .ovl-block::before {
       content: "◎";
       position: absolute;
-      right: -0.08em;
-      bottom: -0.38em;
+      right: -0.06em;
+      bottom: -0.35em;
       font-family: var(--ff-serif);
-      font-size: clamp(140px, 20vw, 220px);
+      font-size: clamp(150px, 22vw, 240px);
       color: transparent;
-      -webkit-text-stroke: 1px rgba(201,168,76,0.05);
+      -webkit-text-stroke: 1px rgba(201,168,76,0.06);
       line-height: 1;
       pointer-events: none;
     }
 
+    .ovl-label {
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .ovl-label::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.4;
+    }
+
     .ovl-title {
       font-family: var(--ff-serif);
-      font-size: clamp(2rem, 3vw, 3.2rem);
+      font-size: clamp(2rem, 3.2vw, 3.4rem);
       font-weight: 300;
       color: var(--text);
       line-height: 1.1;
@@ -663,70 +885,95 @@
 
     .ovl-desc {
       font-size: 15px;
-      line-height: 1.8;
-      color: rgba(240,237,232,0.5);
-      max-width: 48ch;
-      margin-bottom: 32px;
+      line-height: 1.85;
+      color: rgba(240,237,232,0.48);
+      max-width: 46ch;
+      margin-bottom: 36px;
     }
 
     .ovl-cta {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-size: 11px;
-      letter-spacing: 0.2em;
+      gap: 12px;
+      font-size: 10px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--gold);
       text-decoration: none;
-      border-bottom: 1px solid rgba(201,168,76,0.3);
-      padding-bottom: 4px;
-      transition: border-color 0.25s ease, gap 0.25s ease;
+      border-bottom: 1px solid rgba(201,168,76,0.28);
+      padding-bottom: 5px;
+      transition: border-color 0.25s ease, gap 0.3s var(--ease);
     }
 
-    .ovl-cta:hover { border-color: var(--gold); gap: 18px; }
+    .ovl-cta:hover { border-color: var(--gold); gap: 20px; }
 
     .ovl-symbol-large {
       font-family: var(--ff-serif);
-      font-size: clamp(100px, 14vw, 160px);
+      font-size: clamp(100px, 15vw, 170px);
       font-weight: 300;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(201,168,76,0.18);
+      -webkit-text-stroke: 1px rgba(201,168,76,0.2);
       line-height: 1;
       text-align: center;
       position: relative;
       z-index: 1;
     }
 
-    /* ── CONTACT ────────────────────────────────────────────── */
+    /* ── CONTACT — the centrepiece close ───────────────────── */
+    #contact {
+      padding: 160px 56px;
+    }
+
     .contact-inner {
       text-align: center;
-      max-width: 680px;
+      max-width: 760px;
       margin: 0 auto;
     }
 
     .contact-heading {
       font-family: var(--ff-serif);
-      font-size: clamp(3rem, 6vw, 6.5rem);
+      font-size: clamp(3.5rem, 7vw, 7.5rem);
       font-weight: 300;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
+      line-height: 0.92;
+      letter-spacing: -0.025em;
       color: var(--text);
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .contact-heading em {
       font-style: italic;
-      color: rgba(240,237,232,0.3);
+      color: rgba(240,237,232,0.25);
     }
 
     .contact-sub {
       font-size: 16px;
       color: var(--muted);
-      margin-bottom: 48px;
-      max-width: 42ch;
+      margin-bottom: 56px;
+      max-width: 44ch;
       margin-left: auto;
       margin-right: auto;
-      line-height: 1.7;
+      line-height: 1.8;
+    }
+
+    /* Primary CTA — big, gold-bordered button */
+    .contact-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      text-decoration: none;
+      padding: 18px 40px;
+      transition: background 0.25s ease, gap 0.3s var(--ease);
+      margin-bottom: 48px;
+    }
+
+    .contact-primary:hover {
+      background: var(--gold-soft);
+      gap: 22px;
     }
 
     .contact-links {
@@ -753,12 +1000,10 @@
     .contact-link::after {
       content: "";
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 1px;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
       background: var(--gold);
-      transition: width 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: width 0.35s var(--ease);
     }
 
     .contact-link:hover { color: var(--text); }
@@ -769,12 +1014,13 @@
     /* ── FOOTER ─────────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--line);
-      padding: 32px 48px;
+      padding: 32px 56px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 11px;
-      letter-spacing: 0.1em;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       color: var(--dim);
     }
 
@@ -786,64 +1032,9 @@
 
     footer a:hover { color: var(--muted); }
 
-    /* ── SKIP LINK ──────────────────────────────────────────── */
-    .skip-link {
-      position: absolute;
-      top: -100%;
-      left: 16px;
-      z-index: 9999;
-      padding: 12px 20px;
-      background: var(--gold);
-      color: #0A0A0A;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: top 0.2s ease;
-    }
-
-    .skip-link:focus {
-      top: 16px;
-    }
-
-    /* ── FOCUS STYLES ───────────────────────────────────────── */
-    :focus-visible {
-      outline: 2px solid var(--gold);
-      outline-offset: 4px;
-      border-radius: 2px;
-    }
-
-    /* Nav links and contact links get a cleaner focus style */
-    .nav-links a:focus-visible,
-    .contact-link:focus-visible,
-    .ovl-cta:focus-visible {
-      outline: 2px solid var(--gold);
-      outline-offset: 6px;
-    }
-
-    /* ── REDUCED MOTION ─────────────────────────────────────── */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-
-      html { scroll-behavior: auto; }
-
-      .reveal {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-
-      #cursor, #cursor-ring { display: none; }
-    }
-
     /* ── KEYFRAMES ──────────────────────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
@@ -853,42 +1044,50 @@
     }
 
     /* ── RESPONSIVE ─────────────────────────────────────────── */
-    @media (max-width: 960px) {
-      nav { padding: 24px 28px; }
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 120px 28px 48px; }
-      .hero-right { padding: 0 28px 60px; justify-content: flex-start; }
-      .portrait-frame { max-width: 240px; }
-      .hero-bg-letter { display: none; }
-      section { padding: 80px 28px; }
-      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    @media (max-width: 1024px) {
+      nav { padding: 28px 36px; }
+      nav.scrolled { padding: 18px 36px; }
+      section { padding: 100px 36px; }
+      #contact { padding: 120px 36px; }
+      footer { padding: 28px 36px; }
+      .hero-left { padding: 140px 36px 80px; }
+      .hero-right { padding: 120px 36px 60px 0; }
+      .about-grid { grid-template-columns: 1fr; gap: 56px; }
       .expertise-grid { grid-template-columns: repeat(2, 1fr); }
-      .ovl-block { grid-template-columns: 1fr; gap: 36px; padding: 40px 28px; }
-      footer { padding: 28px; flex-direction: column; gap: 12px; text-align: center; }
     }
 
-    @media (max-width: 600px) {
-      .nav-links { gap: 20px; }
-      h1 { letter-spacing: -0.01em; }
+    @media (max-width: 768px) {
+      nav { padding: 24px 24px; }
+      nav.scrolled { padding: 16px 24px; }
+      .nav-links { gap: 24px; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 120px 24px 48px; }
+      .hero-right { padding: 0 24px 72px; justify-content: flex-start; }
+      .portrait-frame { max-width: 260px; }
+      .hero-bg-letter { display: none; }
+      section { padding: 80px 24px; }
+      #contact { padding: 100px 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .ovl-block { grid-template-columns: 1fr; gap: 40px; padding: 44px 32px; }
+      .work-item, .research-item { grid-template-columns: 64px 1fr; }
+      .work-tag, .research-tag { display: none; }
+      .work-detail-inner { grid-template-columns: 1fr; gap: 24px; }
       .expertise-grid { grid-template-columns: 1fr; }
-      .work-item { grid-template-columns: 56px 1fr; }
-      .work-tag { display: none; }
-      .work-detail-inner { grid-template-columns: 1fr; gap: 20px; }
-      .contact-links { flex-direction: column; align-items: center; gap: 24px; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .contact-links { flex-direction: column; align-items: center; gap: 28px; }
+      .hero-scroll { display: none; }
     }
   </style>
 </head>
 
 <body>
-  <!-- SKIP LINK — first focusable element, visible on keyboard focus -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
-
   <div id="cursor" aria-hidden="true"></div>
   <div id="cursor-ring" aria-hidden="true"></div>
 
   <!-- NAV -->
-  <nav aria-label="Primary navigation">
-    <a href="#" class="nav-monogram" aria-label="Dr. Victor Lawal">V<span>L</span></a>
+  <nav id="nav" aria-label="Primary navigation">
+    <a href="#" class="nav-monogram" aria-label="Dr. Victor Lawal — Home">V<span>L</span></a>
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#expertise">Expertise</a>
@@ -905,24 +1104,27 @@
     <div class="hero-bg-letter" aria-hidden="true">L</div>
 
     <div class="hero-left">
-      <p class="hero-eyebrow">Product Leader · Paris</p>
+      <p class="hero-eyebrow">Product Director · Paris</p>
       <h1 id="hero-name">Dr.<br>Victor<br><em>Lawal</em></h1>
-      <p class="hero-tagline">Designing intelligence for financial infrastructure — where AI meets enterprise scale.</p>
-      <div class="hero-creds">
-        <span class="hero-cred-item">Kyriba</span>
-        <span class="hero-cred-sep" aria-hidden="true"></span>
-        <span class="hero-cred-item">DBA · AI Adoption</span>
-        <span class="hero-cred-sep" aria-hidden="true"></span>
-        <span class="hero-cred-item">6+ Years Fintech</span>
+      <p class="hero-tagline">Twenty years building financial technology that moves money at scale — now at the frontier of AI-powered treasury.</p>
+      <div class="hero-creds" role="list">
+        <span class="hero-cred-item" role="listitem">Kyriba</span>
+        <span class="hero-cred-item" role="listitem">DBA · AI Adoption</span>
+        <span class="hero-cred-item" role="listitem">Co-founder · SCFPro</span>
+        <span class="hero-cred-item" role="listitem">5 Languages</span>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span class="hero-scroll-line"></span>
+        Scroll
       </div>
     </div>
 
     <div class="hero-right">
       <div class="portrait-frame">
         <span class="portrait-corner-bl" aria-hidden="true"></span>
-        <!-- Add your photo to public/portrait.jpg to display it -->
-        <img src="/portrait.jpg" alt="Dr. Victor Lawal" class="portrait" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="portrait-placeholder" role="img" aria-label="Portrait of Dr. Victor Lawal" style="display:none;">your photo here</div>
+        <img src="/portrait.jpg" alt="Dr. Victor Lawal" class="portrait" loading="eager"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="portrait-placeholder" role="img" aria-label="Portrait of Dr. Victor Lawal" style="display:none;">Portrait</div>
       </div>
     </div>
   </section>
@@ -935,37 +1137,40 @@
       <p class="section-label">About</p>
       <div class="about-grid">
         <div>
-          <h2 id="about-heading">Built on<br><em>conviction,</em><br>not convention.</h2>
+          <h2 id="about-heading">I build the products<br>that move <em>billions.</em></h2>
           <div class="about-bio">
-            <p>I'm a Product Leader based in Paris, operating at the crossroads of enterprise fintech, AI, and working capital innovation. For over six years I've built, scaled, and led high-performance product teams at Kyriba — one of the world's leading cloud treasury platforms — delivering solutions used by global enterprises to manage billions in liquidity.</p>
-            <p>I'm also an AI thought leader and researcher. My doctoral work examines how product managers adopt AI tools — what drives that adoption, what blocks it, and what it means for the future of software. I believe the most important questions in technology are rarely purely technical.</p>
-            <p>Alongside my work at Kyriba, I co-founded SCFPro, a white-label supply chain finance platform built for financial institutions across Africa. I work fluently across five languages — English, French, Yoruba, Hausa, and Ososo — and operate at the intersection of European enterprise fintech and emerging-market banking.</p>
+            <p>I'm a Product Director based in Paris, operating at the intersection of enterprise fintech, AI, and working capital. At Kyriba — one of the world's leading cloud treasury platforms — I manage Trade Finance and Working Capital solutions used by global enterprises to manage liquidity at scale.</p>
+            <blockquote class="about-pull">"I understand how banks actually work on the ground, and I know how to turn that into software they'll pay for."</blockquote>
+            <p>Over 20 years I've moved from frontline banking operations at Citi and Ecobank through to product leadership — an arc that gives me something rare: the operational depth of a banker and the product instincts of a builder.</p>
+            <p>My doctoral research at Paris School of Business examines how AI adoption reshapes product management practice. Alongside Kyriba, I co-founded SCFPro, a supply chain finance platform for African financial institutions. I work fluently in English, French, Yoruba, Hausa, and Ososo.</p>
           </div>
         </div>
         <div>
-          <div class="stat-item">
-            <div class="stat-number">6+</div>
-            <div class="stat-label">Years in enterprise fintech</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">10+</div>
-            <div class="stat-label">Years in banking &amp; financial services</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">DBA</div>
-            <div class="stat-label">Doctoral researcher · AI adoption</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">12</div>
-            <div class="stat-label">Major products shipped at Kyriba</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">5</div>
-            <div class="stat-label">Languages spoken fluently</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">3</div>
-            <div class="stat-label">Published research papers</div>
+          <div class="stat-grid reveal-stagger">
+            <div class="stat-item">
+              <div class="stat-number">20+</div>
+              <div class="stat-label">Years in banking & fintech</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">$11.5bn</div>
+              <div class="stat-label">Programme volume delivered</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">DBA</div>
+              <div class="stat-label">Doctoral researcher · AI adoption</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">5</div>
+              <div class="stat-label">Languages spoken fluently</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">12</div>
+              <div class="stat-label">Major products shipped at Kyriba</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Published research papers</div>
+            </div>
           </div>
         </div>
       </div>
@@ -978,27 +1183,41 @@
   <section id="expertise" aria-labelledby="expertise-heading">
     <div class="reveal">
       <p class="section-label">Focus areas</p>
-      <h2 id="expertise-heading" style="margin-bottom: 48px;">What I<br><em>bring</em></h2>
-      <div class="expertise-grid">
+      <h2 id="expertise-heading" style="margin-bottom: 56px;">Where I<br><em>operate</em></h2>
+      <div class="expertise-grid reveal-stagger">
         <div class="exp-card">
-          <span class="exp-num" aria-hidden="true">01</span>
+          <svg class="exp-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+            <rect x="3" y="8" width="26" height="18" rx="1"/>
+            <path d="M3 13h26M10 8V6M22 8V6"/>
+          </svg>
           <div class="exp-title">Trade Finance &amp; Treasury</div>
-          <p class="exp-body">Working capital, reverse factoring, cash forecasting and liquidity management for global enterprises.</p>
+          <p class="exp-body">Working capital, reverse factoring, cash forecasting and liquidity management — for enterprises managing billions.</p>
         </div>
         <div class="exp-card">
-          <span class="exp-num" aria-hidden="true">02</span>
+          <svg class="exp-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+            <circle cx="16" cy="16" r="12"/>
+            <path d="M16 4v4M16 24v4M4 16h4M24 16h4M8.6 8.6l2.8 2.8M20.6 20.6l2.8 2.8M8.6 23.4l2.8-2.8M20.6 11.4l2.8-2.8"/>
+          </svg>
           <div class="exp-title">AI Product Strategy</div>
-          <p class="exp-body">Designing and shipping AI-powered features — from ideation through enterprise adoption — in complex B2B environments.</p>
+          <p class="exp-body">Designing and shipping AI-powered products in complex B2B environments — from doctoral research to live enterprise deployment.</p>
         </div>
         <div class="exp-card">
-          <span class="exp-num" aria-hidden="true">03</span>
+          <svg class="exp-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+            <rect x="4" y="4" width="10" height="10" rx="1"/>
+            <rect x="18" y="4" width="10" height="10" rx="1"/>
+            <rect x="4" y="18" width="10" height="10" rx="1"/>
+            <rect x="18" y="18" width="10" height="10" rx="1"/>
+          </svg>
           <div class="exp-title">Enterprise SaaS</div>
-          <p class="exp-body">Cross-functional product leadership across engineering, sales, and client success at scale.</p>
+          <p class="exp-body">Cross-functional product leadership across engineering, commercial, and client success — at multinational scale.</p>
         </div>
         <div class="exp-card">
-          <span class="exp-num" aria-hidden="true">04</span>
-          <div class="exp-title">Research &amp; Insights</div>
-          <p class="exp-body">Doctoral-level research into AI adoption behaviour and the human side of technology transformation.</p>
+          <svg class="exp-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+            <path d="M6 26L16 6l10 20"/>
+            <path d="M9.5 19h13"/>
+          </svg>
+          <div class="exp-title">Emerging Market Fintech</div>
+          <p class="exp-body">Building SCFPro from the ground up for African financial institutions — where enterprise SaaS meets frontier banking infrastructure.</p>
         </div>
       </div>
     </div>
@@ -1010,17 +1229,17 @@
   <section id="work" aria-labelledby="work-heading">
     <div class="reveal">
       <p class="section-label">Selected work</p>
-      <h2 id="work-heading" style="margin-bottom: 48px;">Built<br><em>at scale</em></h2>
+      <h2 id="work-heading" style="margin-bottom: 56px;">Built<br><em>at scale</em></h2>
       <div>
 
         <article class="work-item expandable" data-work="forecasting">
           <div class="work-year">2024</div>
           <div>
             <div class="work-title">AI Cash Forecasting Platform</div>
-            <p class="work-sub">Kyriba's first AI-powered forecasting product — designed and shipped from zero to enterprise deployment.</p>
+            <p class="work-sub">Kyriba's first AI-powered product — designed and led from zero to enterprise deployment.</p>
             <button class="work-toggle" aria-expanded="false" aria-controls="detail-forecasting">
               Case study
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1.2"/></svg>
             </button>
           </div>
           <span class="work-tag">Kyriba</span>
@@ -1028,11 +1247,11 @@
             <div class="work-detail-inner">
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Problem</div>
-                <p>Treasury teams relied on manual, spreadsheet-driven cash forecasting — slow to update and prone to error, leaving CFOs with limited visibility into near-term liquidity.</p>
+                <p>Treasury teams relied on manual, spreadsheet-driven cash forecasting — slow, error-prone, and leaving CFOs with limited near-term liquidity visibility.</p>
               </div>
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Approach</div>
-                <p>Led the product from concept through GA as Kyriba's first AI-powered offering — defining the forecasting model's product requirements, working through enterprise rollout, and driving adoption across the client base in the first two quarters post-launch.</p>
+                <p>Led Kyriba's first AI-powered offering from concept through GA — defining product requirements, driving enterprise rollout, and building adoption across the client base in the first two quarters post-launch.</p>
               </div>
               <div class="work-metrics">
                 <div class="work-metric">
@@ -1045,7 +1264,7 @@
                 </div>
                 <div class="work-metric">
                   <div class="work-metric-value">↑</div>
-                  <div class="work-metric-label">Enhanced liquidity planning</div>
+                  <div class="work-metric-label">Liquidity planning quality</div>
                 </div>
               </div>
             </div>
@@ -1055,11 +1274,11 @@
         <article class="work-item expandable" data-work="reverse-factoring">
           <div class="work-year">2023</div>
           <div>
-            <div class="work-title">Reverse Factoring Integration</div>
-            <p class="work-sub">HSBC supply chain finance integration with end-to-end ledger reporting and interest rate management.</p>
+            <div class="work-title">Reverse Factoring — HSBC</div>
+            <p class="work-sub">End-to-end supply chain finance integration with periodic interest management and multinational ledger reporting.</p>
             <button class="work-toggle" aria-expanded="false" aria-controls="detail-reverse-factoring">
               Case study
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1.2"/></svg>
             </button>
           </div>
           <span class="work-tag">Kyriba · HSBC</span>
@@ -1067,11 +1286,11 @@
             <div class="work-detail-inner">
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Problem</div>
-                <p>HSBC needed a reverse factoring programme capable of handling periodic buyer interest (BBI) calculations and ledger reporting at multinational scale — replacing a legacy setup that limited geographic reach and time-to-market.</p>
+                <p>HSBC needed a reverse factoring programme handling periodic buyer interest calculations and ledger reporting at multinational scale — while migrating off a legacy system limiting geographic reach.</p>
               </div>
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Approach</div>
-                <p>Led product delivery on the BBI periodic interest enhancement and the underlying ledger reporting architecture, while driving the platform's migration from a legacy system to a SaaS model to support faster client onboarding.</p>
+                <p>Led product delivery on the BBI periodic interest enhancement and ledger architecture, while driving a full platform migration from legacy to SaaS — enabling faster client onboarding across 20+ markets.</p>
               </div>
               <div class="work-metrics">
                 <div class="work-metric">
@@ -1095,10 +1314,10 @@
           <div class="work-year">Kyriba</div>
           <div>
             <div class="work-title">Real-Time Supplier Management</div>
-            <p class="work-sub">Onboarding engine that collapsed supplier setup time from months to days for global supply chain finance programmes.</p>
+            <p class="work-sub">Onboarding engine that collapsed supplier setup from months to days for global supply chain finance programmes.</p>
             <button class="work-toggle" aria-expanded="false" aria-controls="detail-rtsm">
               Case study
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1.2"/></svg>
             </button>
           </div>
           <span class="work-tag">Kyriba</span>
@@ -1106,16 +1325,16 @@
             <div class="work-detail-inner">
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Problem</div>
-                <p>Supplier onboarding for supply chain finance programmes was a slow, document-heavy manual process, taking 1–3 months per supplier — a major bottleneck to programme scale and buyer adoption.</p>
+                <p>Supplier onboarding was a manual, document-heavy process taking 1–3 months per supplier — a critical bottleneck to programme scale.</p>
               </div>
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Approach</div>
-                <p>Designed and built a real-time supplier management workflow to digitise and parallelise onboarding steps that had previously run sequentially through manual review.</p>
+                <p>Designed and built a real-time supplier management workflow, digitising and parallelising onboarding steps that had previously run sequentially through manual review.</p>
               </div>
               <div class="work-metrics">
                 <div class="work-metric">
                   <div class="work-metric-value">1–5 days</div>
-                  <div class="work-metric-label">From 1–3 months onboarding</div>
+                  <div class="work-metric-label">Down from 1–3 months</div>
                 </div>
               </div>
             </div>
@@ -1126,10 +1345,10 @@
           <div class="work-year">Kyriba</div>
           <div>
             <div class="work-title">Post-Maturity Financing</div>
-            <p class="work-sub">Extension of traditional supply chain finance to improve buyer payment terms while keeping financing off-balance-sheet.</p>
+            <p class="work-sub">Extends traditional SCF to improve buyer DPO while keeping financing off-balance-sheet.</p>
             <button class="work-toggle" aria-expanded="false" aria-controls="detail-pmf">
               Case study
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1.2"/></svg>
             </button>
           </div>
           <span class="work-tag">Kyriba</span>
@@ -1137,11 +1356,11 @@
             <div class="work-detail-inner">
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Problem</div>
-                <p>Traditional supply chain finance products extend supplier payment terms but cap out on how much additional DPO flexibility buyer corporates can unlock without affecting balance sheet treatment.</p>
+                <p>Standard SCF products cap the additional DPO flexibility buyer corporates can unlock without triggering adverse balance sheet treatment.</p>
               </div>
               <div class="work-detail-col">
                 <div class="work-detail-col-label">Approach</div>
-                <p>Designed and developed a post-maturity financing product extending standard SCF structures, built to keep the financing classification off-balance-sheet for buyer corporates.</p>
+                <p>Designed a post-maturity financing product that extends standard SCF structures while preserving off-balance-sheet classification for buyer corporates — expanding working capital runway without accounting risk.</p>
               </div>
               <div class="work-metrics">
                 <div class="work-metric">
@@ -1163,14 +1382,14 @@
             <div class="work-title">Working Capital Intelligence System</div>
             <p class="work-sub">Trade finance optimisation engine for global treasury operations — automating decisions at enterprise scale.</p>
           </div>
-          <span class="work-tag">Enterprise</span>
+          <span class="work-tag">Kyriba</span>
         </article>
 
         <article class="work-item">
           <div class="work-year">Co-Founder</div>
           <div>
             <div class="work-title">SCFPro</div>
-            <p class="work-sub">White-label supply chain finance platform built for financial institutions across African markets — trade finance, receivables, and warehouse receipt financing.</p>
+            <p class="work-sub">White-label supply chain finance platform for financial institutions across African markets — trade finance, receivables, and warehouse receipt financing.</p>
           </div>
           <span class="work-tag">SCFPro</span>
         </article>
@@ -1181,35 +1400,35 @@
 
   <hr>
 
-  <!-- RESEARCH / PUBLICATIONS -->
+  <!-- RESEARCH -->
   <section id="research" aria-labelledby="research-heading">
     <div class="reveal">
       <p class="section-label">Research</p>
-      <h2 id="research-heading" style="margin-bottom: 48px;">Published<br><em>findings</em></h2>
+      <h2 id="research-heading" style="margin-bottom: 56px;">Published<br><em>findings</em></h2>
       <div>
-        <article class="work-item">
-          <div class="work-year">2025</div>
+        <article class="research-item">
+          <div class="research-year">2025</div>
           <div>
-            <div class="work-title">AI Adoption for User Story Generation in Software Product Management</div>
-            <p class="work-sub">Doctoral research examining what drives product managers to adopt AI tools, extending the Technology Acceptance Model with a compatibility construct. Survey-based study with regression analysis across 199 usable responses.</p>
+            <div class="research-title">AI Adoption for User Story Generation in Software Product Management</div>
+            <p class="research-sub">Doctoral research extending the Technology Acceptance Model with a compatibility construct — survey-based study with regression analysis across 199 usable responses from practising product managers.</p>
           </div>
-          <span class="work-tag">DBA Thesis</span>
+          <span class="research-tag">DBA Thesis</span>
         </article>
-        <article class="work-item">
-          <div class="work-year">2024</div>
+        <article class="research-item">
+          <div class="research-year">2024</div>
           <div>
-            <div class="work-title">Comparative Study of Open Banking Implementation: UK vs Rwanda vs Bahrain</div>
-            <p class="work-sub">Cross-market analysis of regulatory approaches and adoption patterns in open banking across three distinct jurisdictions.</p>
+            <div class="research-title">Comparative Study of Open Banking: UK vs Rwanda vs Bahrain</div>
+            <p class="research-sub">Cross-market analysis of regulatory approaches and adoption patterns across three jurisdictions at different stages of open banking maturity.</p>
           </div>
-          <span class="work-tag">Research Paper</span>
+          <span class="research-tag">Research Paper</span>
         </article>
-        <article class="work-item">
-          <div class="work-year">Earlier</div>
+        <article class="research-item">
+          <div class="research-year">Earlier</div>
           <div>
-            <div class="work-title">Mathematical Modeling of Furnaces</div>
-            <p class="work-sub">Engineering research on thermal modeling techniques, from my background in mechanical engineering.</p>
+            <div class="research-title">Mathematical Modeling of Furnaces</div>
+            <p class="research-sub">Engineering research on thermal modelling techniques — from an earlier chapter in mechanical engineering.</p>
           </div>
-          <span class="work-tag">Engineering</span>
+          <span class="research-tag">Engineering</span>
         </article>
       </div>
     </div>
@@ -1220,14 +1439,14 @@
   <!-- OVL SHOW -->
   <section id="ovl" aria-labelledby="ovl-heading">
     <div class="reveal">
-      <p class="section-label">The OVL Show</p>
       <div class="ovl-block">
         <div>
+          <p class="ovl-label">The OVL Show</p>
           <h2 id="ovl-heading" class="ovl-title">Ideas worth<br>building on.</h2>
           <p class="ovl-desc">A podcast about the decisions, people, and ideas behind the things we build. Conversations on leadership, technology, and what it really takes to make something that lasts.</p>
           <a href="mailto:drvictorlawal@gmail.com?subject=Notify%20me%20-%20The%20OVL%20Show" class="ovl-cta" aria-label="Get notified when The OVL Show launches">
             Launching soon — get notified
-            <svg width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true"><path d="M0 4h14M11 1l3 3-3 3" stroke="currentColor" stroke-width="1"/></svg>
+            <svg width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true"><path d="M0 4h14M11 1l3 3-3 3" stroke="currentColor" stroke-width="1.2"/></svg>
           </a>
         </div>
         <div class="ovl-symbol-large" aria-hidden="true">◎</div>
@@ -1240,46 +1459,48 @@
   <!-- CONTACT -->
   <section id="contact" aria-labelledby="contact-heading">
     <div class="reveal">
-      <p class="section-label">Contact</p>
       <div class="contact-inner">
-        <h2 id="contact-heading" class="contact-heading">Let's<br><em>talk.</em></h2>
-        <p class="contact-sub">Whether you want to discuss product strategy, fintech, AI, or just have an interesting conversation — I'm always open.</p>
+        <p class="section-label" style="justify-content:center; margin-bottom: 36px;">Get in touch</p>
+        <h2 id="contact-heading" class="contact-heading">Let's<br><em>build something.</em></h2>
+        <p class="contact-sub">Open to conversations about product leadership, trade finance, AI strategy, advisory roles, and ambitious ideas at the intersection of all three.</p>
+        <a href="mailto:drvictorlawal@gmail.com" class="contact-primary" aria-label="Send an email to Dr. Victor Lawal">
+          Send a message
+          <svg width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true"><path d="M0 4h14M11 1l3 3-3 3" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
         <div class="contact-links">
-          <a href="https://linkedin.com/in/vlawal" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="LinkedIn profile">
+          <a href="https://linkedin.com/in/vlawal" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="LinkedIn profile — opens in new tab">
             <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
-          <a href="mailto:drvictorlawal@gmail.com" class="contact-link" aria-label="Email Dr. Victor Lawal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-            drvictorlawal@gmail.com
+          <a href="https://scfpro.com" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="SCFPro website — opens in new tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            SCFPro
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  </main><!-- /main -->
+  </main>
 
   <hr>
 
-  <!-- FOOTER -->
   <footer>
     <span>© 2026 Dr. Victor Lawal</span>
-    <a href="https://victorlawal.com">victorlawal.com</a>
+    <a href="https://victorlawal.com" aria-label="victorlawal.com">victorlawal.com</a>
   </footer>
 
   <script>
-    // ── Custom cursor — fine pointer devices only ──────────
+    // ── Custom cursor — fine pointer only ─────────────────
     const cursor = document.getElementById('cursor');
     const ring   = document.getElementById('cursor-ring');
-
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (hasFinePointer && !prefersReducedMotion) {
       document.body.classList.add('has-custom-cursor');
       cursor.style.display = 'block';
-      ring.style.display = 'block';
+      ring.style.display   = 'block';
 
       let mx = 0, my = 0, rx = 0, ry = 0;
 
@@ -1290,34 +1511,41 @@
       });
 
       document.querySelectorAll('a, button').forEach(el => {
-        el.addEventListener('mouseenter', () => ring.classList.add('expanded'));
-        el.addEventListener('mouseleave', () => ring.classList.remove('expanded'));
+        el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
       });
 
-      document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0';
-        ring.style.opacity = '0';
-      });
-
-      document.addEventListener('mouseenter', () => {
-        cursor.style.opacity = '1';
-        ring.style.opacity = '1';
-      });
+      document.addEventListener('mouseleave', () => { cursor.style.opacity='0'; ring.style.opacity='0'; });
+      document.addEventListener('mouseenter', () => { cursor.style.opacity='1'; ring.style.opacity='1'; });
 
       (function animateRing() {
-        rx += (mx - rx) * 0.12;
-        ry += (my - ry) * 0.12;
+        rx += (mx - rx) * 0.10;
+        ry += (my - ry) * 0.10;
         ring.style.left = rx + 'px';
         ring.style.top  = ry + 'px';
         requestAnimationFrame(animateRing);
       })();
-    } else {
-      // Hide cursor elements entirely on touch/keyboard devices
-      cursor.style.display = 'none';
-      ring.style.display = 'none';
     }
 
-    // ── Scroll reveal ──────────────────────────────────────
+    // ── Nav: scroll state + active section ───────────────
+    const nav      = document.getElementById('nav');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id], section.hero');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+
+      // Active link highlighting
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+      });
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }, { passive: true });
+
+    // ── Scroll reveal ────────────────────────────────────
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -1325,15 +1553,15 @@
           io.unobserve(e.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
 
-    // ── Work item expand/collapse ──────────────────────────
+    // ── Work item expand/collapse ────────────────────────
     document.querySelectorAll('.work-toggle').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', e => {
         e.stopPropagation();
-        const item = btn.closest('.work-item');
+        const item   = btn.closest('.work-item');
         const isOpen = item.classList.contains('open');
         item.classList.toggle('open', !isOpen);
         btn.setAttribute('aria-expanded', String(!isOpen));
